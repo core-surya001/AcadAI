@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AcadAI - Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #e8eaf0;
+            color: #2e3040;
+        }
+        .neomorph-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorph-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#a78bfa",
+                        "surface-variant": "#dcdee4",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-secondary-fixed": "#1a1b26",
+                        "inverse-surface": "#2e3040",
+                        "tertiary": "#7c3aed",
+                        "background": "#e8eaf0",
+                        "surface-container-lowest": "#f0f2f8",
+                        "on-background": "#2e3040",
+                        "primary-fixed": "#e0e2ff",
+                        "on-surface": "#2e3040",
+                        "error-container": "#fee2e2",
+                        "surface-container-high": "#dcdee4",
+                        "on-surface-variant": "#585a68",
+                        "on-secondary-container": "#585a68",
+                        "surface": "#e8eaf0",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "on-tertiary-fixed": "#2e1065",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "outline-variant": "#d0d2dc",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5b4fc",
+                        "error": "#dc2626",
+                        "secondary": "#6c6e7e",
+                        "surface-container-highest": "#d6d8de",
+                        "secondary-container": "#d8dae6",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#1e1b4b",
+                        "on-error-container": "#991b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#edeef4",
+                        "primary-container": "#818cf8",
+                        "secondary-fixed": "#d8dae6",
+                        "on-secondary-fixed-variant": "#404252",
+                        "surface-tint": "#6366f1",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e2e4ea",
+                        "primary": "#6366f1",
+                        "on-tertiary-container": "#3b1f63",
+                        "tertiary-fixed": "#ede9fe",
+                        "surface-dim": "#d4d6dc",
+                        "outline": "#8a8c9a",
+                        "on-primary-container": "#e0e2ff",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-low": "#e5e7ed",
+                        "secondary-fixed-dim": "#b8baca"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background">
+<!-- SideNavBar Integration -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#e8eaf0] dark:bg-slate-900 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] flex flex-col h-full p-4 gap-4 z-50">
+<div class="flex items-center gap-3 px-2 mb-6">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-[#e8eaf0]">
+<span class="material-symbols-outlined text-indigo-600" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-indigo-600 leading-none">AcadAI</h1>
+<p class="text-[10px] text-slate-500 font-medium">SaaS Admin</p>
+</div>
+</div>
+<nav class="flex flex-col gap-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-medium">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="font-medium">Upload Data</span>
+</a>
+<!-- Active State for Reports -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#e8eaf0] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-indigo-600 rounded-xl active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-medium">Reports</span>
+</a>
+</nav>
+<div class="mt-auto p-4 rounded-xl neomorph-inset bg-surface-container-low">
+<p class="text-xs text-on-surface-variant font-medium mb-2">Storage Usage</p>
+<div class="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+<p class="text-[10px] text-right mt-1 text-on-surface-variant">75% of 10GB</p>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Integration -->
+<header class="bg-[#e8eaf0] dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 font-['Plus_Jakarta_Sans'] font-medium docked full-width top-0 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] flex justify-between items-center px-6 py-3 w-full sticky z-40">
+<div class="flex items-center gap-4">
+<div class="w-96 neomorph-inset bg-[#e8eaf0] rounded-xl flex items-center px-4 py-2">
+<span class="material-symbols-outlined text-slate-400 mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full text-on-surface" placeholder="Search reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="w-10 h-10 rounded-full neomorph-raised flex items-center justify-center hover:shadow-inner transition-all duration-200 active:shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-on-surface leading-none">Alex Rivera</p>
+<p class="text-[10px] text-slate-500">Administrator</p>
+</div>
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised object-cover p-0.5 border-2 border-white/20" data-alt="professional portrait of a young administrator in a clean modern office setting with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEpdntSpPZ9np5EfniWTgpBHMLbUYNA6MiF-B9d1PpGpUxk-2hcb19VahY5YnXdh69ivFdrV8dIbaje3YeuaE7NSzYM03HZBxaK9xQt2QYzM2lv26bjZ7ul2gigz9msSynDHqH4l3JUI-uUtia0JNaPf9Eyuj7WmdSwDHbnkASOulGnMDyTazxeFCDR8mipq0qKHNCGDI6hBjV1kbrkONvyQlDzkrTjnsEzI0FfDejSuccsB99ha9RNj9WSgJqsnUShYyHiH2HPiw"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+<div>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight">Academic Reports</h2>
+<p class="text-on-surface-variant">Generate, analyze and export institutional data.</p>
+</div>
+<button class="neomorph-raised bg-background px-6 py-3 rounded-xl flex items-center gap-2 text-primary font-semibold hover:shadow-inner active:shadow-inset transition-all">
+<span class="material-symbols-outlined">add_chart</span>
+                    Create New Report
+                </button>
+</div>
+<!-- Filters Section -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold text-on-surface-variant ml-1">Class Period</label>
+<div class="neomorph-inset bg-background rounded-xl px-4 py-3 flex items-center justify-between">
+<span class="text-sm text-on-surface">Spring Semester 2024</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold text-on-surface-variant ml-1">Student Group</label>
+<div class="neomorph-inset bg-background rounded-xl px-4 py-3 flex items-center justify-between">
+<span class="text-sm text-on-surface">All Engineering Students</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold text-on-surface-variant ml-1">Report Type</label>
+<div class="neomorph-inset bg-background rounded-xl px-4 py-3 flex items-center justify-between">
+<span class="text-sm text-on-surface">Performance Analytics</span>
+<span class="material-symbols-outlined text-slate-400">expand_more</span>
+</div>
+</div>
+<div class="flex flex-end items-end">
+<button class="neomorph-raised bg-background w-full py-3 rounded-xl text-primary font-semibold hover:shadow-inner flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">filter_list</span>
+                        Apply Filters
+                    </button>
+</div>
+</section>
+<!-- Reports Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="neomorph-raised bg-background rounded-xl p-6 group transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg neomorph-inset flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-indigo-600" style="font-variation-settings: 'FILL' 1;">bar_chart</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-100 text-green-700">COMPLETED</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Final Grades Summary</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Comprehensive breakdown of student performance across all core engineering modules for Q1.</p>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex -space-x-2">
+<img alt="Avatar" class="w-6 h-6 rounded-full border-2 border-background" data-alt="close up avatar of a student with professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDllxQFVpq5S7KXm2838kJ2gZAckkLov3mw9xcT7D6hSVrQtyq92TBeiuPMhnFvK89ZCjHozSQ7BbfYTFMlPokKY9WGYNkeHWTddDjWa3QzWPILyldIXn4CeinnvrqftmAX4mGkixBA9a7eisonTLgLhGKzzN_ptJTyQdzL7EXv2xCWumtX3r91m6VwnonHaYtLI649N0hMHjmjtbpsR65rw3IetDfFGBW3AiQDIuafByPTQsM-5tDBhJjOCSEYrfI3U9UCTAT67QA"/>
+<img alt="Avatar" class="w-6 h-6 rounded-full border-2 border-background" data-alt="close up avatar of a smiling student with professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBub151DkREnSTc5tWwTf8kw-jaMh9f2JqoZGDgDC9dUHpWFllMCRqftSN8R6qg55UJFuhegrcFosAtqoeeGGHhJValrpt4aElNhwm0Xs0oSRuWrY7NYem9TXVAYF1BrHaZbjuKbdTApmd_KRDe6P-EMxggh5rtcIkQzz5JL21NCK12Ca99cL_ouqJIzIijgFgPFq9R9TXO2VYS-kgLwQSZgAbFgGaQOERj8OyMb16kowYc7YyCNLNHefXA6Kj9ojunY2oUiXxwCYI"/>
+<div class="w-6 h-6 rounded-full border-2 border-background bg-slate-200 flex items-center justify-center text-[8px] font-bold">+12</div>
+</div>
+<span class="text-[10px] text-slate-500 font-medium italic">Last updated: 2h ago</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-primary hover:shadow-inner">
+                            Preview
+                        </button>
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-indigo-700 flex items-center justify-center gap-1 hover:shadow-inner active:shadow-inset">
+<span class="material-symbols-outlined text-sm">download</span>
+                            PDF
+                        </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="neomorph-raised bg-background rounded-xl p-6 group transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg neomorph-inset flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-100 text-blue-700">PROCESSING</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Attendance Trends</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Visualizing student engagement and physical attendance patterns vs hybrid learning metrics.</p>
+<div class="w-full h-1 bg-surface-variant rounded-full mb-6 relative overflow-hidden">
+<div class="absolute inset-0 bg-tertiary w-2/3"></div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="opacity-50 cursor-not-allowed neomorph-inset bg-background py-2 rounded-lg text-xs font-semibold text-slate-400">
+                            Preview
+                        </button>
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-indigo-700 flex items-center justify-center gap-1 hover:shadow-inner">
+<span class="material-symbols-outlined text-sm">notifications</span>
+                            Notify Me
+                        </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="neomorph-raised bg-background rounded-xl p-6 group transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg neomorph-inset flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-amber-500" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-green-100 text-green-700">COMPLETED</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">AI Assignment Insights</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Evaluation of AI-driven assessment tools and their impact on student learning curves.</p>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-amber-500 text-sm">star</span>
+<span class="text-[10px] font-bold text-on-surface">Top Performer: Computer Science 101</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-primary hover:shadow-inner">
+                            Preview
+                        </button>
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-indigo-700 flex items-center justify-center gap-1 hover:shadow-inner active:shadow-inset">
+<span class="material-symbols-outlined text-sm">download</span>
+                            CSV
+                        </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="neomorph-raised bg-background rounded-xl p-6 group transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg neomorph-inset flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-rose-500" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-rose-100 text-rose-700">ARCHIVED</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Risk Assessment 2023</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Historical report identifying students at risk of dropping out based on early warning signs.</p>
+<div class="flex items-center gap-4 mb-6">
+<span class="text-[10px] text-slate-500 font-medium">Archive ID: #ARC-2023-04</span>
+</div>
+<div class="grid grid-cols-1">
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-on-surface-variant flex items-center justify-center gap-1 hover:shadow-inner">
+<span class="material-symbols-outlined text-sm">unarchive</span>
+                            Restore to Active
+                        </button>
+</div>
+</div>
+<!-- Card 5 (Draft State) -->
+<div class="neomorph-inset bg-background rounded-xl p-6 border border-white/40">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg neomorph-raised flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-slate-400">edit_note</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full bg-slate-100 text-slate-500">DRAFT</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Scholarship Eligibility</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-2">Drafting criteria for merit-based scholarships for the upcoming academic year.</p>
+<div class="flex items-center gap-2 mb-6">
+<span class="text-[10px] font-medium text-indigo-600">3 sections pending review</span>
+</div>
+<div class="grid grid-cols-1">
+<button class="neomorph-raised bg-background py-2 rounded-lg text-xs font-semibold text-primary hover:shadow-inner">
+                            Continue Editing
+                        </button>
+</div>
+</div>
+<!-- Empty State/Add New -->
+<div class="border-4 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-6 bg-slate-200/30 group cursor-pointer hover:border-indigo-300 transition-colors">
+<div class="w-16 h-16 rounded-full neomorph-raised flex items-center justify-center bg-background mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-indigo-400 text-3xl">post_add</span>
+</div>
+<p class="font-bold text-on-surface">Generate Custom Report</p>
+<p class="text-xs text-on-surface-variant text-center mt-2 px-4">Use the AI builder to create specialized data views.</p>
+</div>
+</div>
+<!-- Footer Documentation Style -->
+<footer class="mt-16 pt-8 border-t border-slate-300 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-8">
+<div class="text-[10px] uppercase tracking-widest font-bold text-slate-400">Security: Tier 3 AES-256</div>
+<div class="text-[10px] uppercase tracking-widest font-bold text-slate-400">Compliance: FERPA &amp; GDPR</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-xs font-semibold text-on-surface-variant hover:text-primary">Documentation</button>
+<button class="text-xs font-semibold text-on-surface-variant hover:text-primary">API Access</button>
+<button class="text-xs font-semibold text-on-surface-variant hover:text-primary">Support</button>
+</div>
+<div class="text-[10px] font-medium text-slate-500">
+                    © 2024 AcadAI Intelligence Systems. All rights reserved.
+                </div>
+</footer>
+</div>
+</main>
+</body></html>

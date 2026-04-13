@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-container": "#a78bfa",
+            "surface-variant": "#dcdee4",
+            "on-primary-fixed-variant": "#4338ca",
+            "on-secondary-fixed": "#1a1b26",
+            "inverse-surface": "#2e3040",
+            "tertiary": "#7c3aed",
+            "background": "#e8eaf0",
+            "surface-container-lowest": "#f0f2f8",
+            "on-background": "#2e3040",
+            "primary-fixed": "#e0e2ff",
+            "on-surface": "#2e3040",
+            "error-container": "#fee2e2",
+            "surface-container-high": "#dcdee4",
+            "on-surface-variant": "#585a68",
+            "on-secondary-container": "#585a68",
+            "surface": "#e8eaf0",
+            "on-tertiary-fixed-variant": "#5b21b6",
+            "on-tertiary-fixed": "#2e1065",
+            "tertiary-fixed-dim": "#c4b5fd",
+            "primary-fixed-dim": "#a5b4fc",
+            "outline-variant": "#d0d2dc",
+            "on-primary": "#ffffff",
+            "inverse-primary": "#a5b4fc",
+            "error": "#dc2626",
+            "secondary": "#6c6e7e",
+            "surface-container-highest": "#d6d8de",
+            "secondary-container": "#d8dae6",
+            "on-secondary": "#ffffff",
+            "on-primary-fixed": "#1e1b4b",
+            "on-error-container": "#991b1b",
+            "on-error": "#ffffff",
+            "surface-bright": "#edeef4",
+            "primary-container": "#818cf8",
+            "secondary-fixed": "#d8dae6",
+            "on-secondary-fixed-variant": "#404252",
+            "surface-tint": "#6366f1",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#e2e4ea",
+            "primary": "#6366f1",
+            "on-tertiary-container": "#3b1f63",
+            "tertiary-fixed": "#ede9fe",
+            "surface-dim": "#d4d6dc",
+            "outline": "#8a8c9a",
+            "on-primary-container": "#e0e2ff",
+            "inverse-on-surface": "#e8eaf0",
+            "surface-container-low": "#e5e7ed",
+            "secondary-fixed-dim": "#b8baca"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Plus Jakarta Sans"],
+            "label": ["Plus Jakarta Sans"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #e8eaf0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .neomorph-raised {
+      box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+    }
+    .neomorph-inset {
+      box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- Side Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#e8eaf0] flex flex-col p-4 gap-4 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-20">
+<div class="flex items-center gap-3 px-2 py-4">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-primary font-bold" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-primary leading-none">AcadAI</h1>
+<p class="text-[10px] text-on-surface-variant font-medium tracking-wider">SaaS Admin</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-500 hover:translate-x-1 transition-transform font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+        Dashboard
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-500 hover:translate-x-1 transition-transform font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+        Students
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-[#e8eaf0] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-indigo-600 rounded-xl font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+        Upload Data
+      </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-500 hover:translate-x-1 transition-transform font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+        Reports
+      </a>
+</nav>
+<div class="mt-auto p-4 neomorph-inset rounded-xl bg-background/50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden neomorph-raised">
+<img alt="Student avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9nxo2fm5seiJlQYtY0-lrniTd_gUpRZQkyDopJGh1Dw7D5RW0yJWw1FMSOrH8ajqeA4u4qECpj4A35kxkRJuukckErgxrd_NwtL0sg2-yZJzW2jr3thjmqlUUPUf5N_hV9tTuSIqrSJtPEWpApEvDK2oHyQ5XzqibyJ-Rn907OkMo8jSSVCp2Nu0MS8Z9hWTp7WMvFBI-8Lt_UDXU55pGleed9YfQIUeeHk8XGxR2DcvMjbwJw7tKqxr-hKIInHgOXMoLqwuIVcw"/>
+</div>
+<div class="overflow-hidden">
+<p class="text-xs font-semibold truncate">Alex Rivera</p>
+<p class="text-[10px] text-on-surface-variant">Admin Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 min-h-screen p-8">
+<!-- Top Bar -->
+<header class="flex justify-between items-center mb-10">
+<div>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight">Upload Data</h2>
+<p class="text-on-surface-variant mt-1">Import student records into the AcadAI ecosystem</p>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 rounded-xl neomorph-raised flex items-center justify-center hover:shadow-inner active:scale-95 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button class="px-6 py-2 rounded-xl neomorph-raised flex items-center gap-2 text-primary font-semibold hover:shadow-inner active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+          Guide
+        </button>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-8">
+<!-- Upload Section -->
+<section class="col-span-12 lg:col-span-7">
+<div class="p-8 rounded-xl neomorph-raised bg-background">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-semibold text-on-surface">Data Import</h3>
+<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full">CSV / XLSX</span>
+</div>
+<!-- Drag and Drop Zone -->
+<div class="neomorph-inset rounded-xl border-2 border-dashed border-outline-variant p-12 flex flex-col items-center justify-center text-center cursor-pointer group hover:bg-surface-container-low transition-colors">
+<div class="w-20 h-20 rounded-full neomorph-raised bg-background flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<p class="text-lg font-semibold text-on-surface mb-2">Drag &amp; drop files here</p>
+<p class="text-sm text-on-surface-variant mb-6">or click to browse your computer</p>
+<button class="px-8 py-3 rounded-xl bg-primary text-on-primary font-bold neomorph-raised hover:opacity-90 active:scale-95 transition-all">
+              Choose Files
+            </button>
+</div>
+<!-- Active Uploads -->
+<div class="mt-8 space-y-4">
+<div class="p-4 rounded-xl neomorph-raised bg-background flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg neomorph-inset flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<div>
+<p class="text-sm font-semibold text-on-surface">fall_semester_2024.csv</p>
+<p class="text-[10px] text-on-surface-variant">1.4 MB • 45% uploaded</p>
+</div>
+<span class="text-xs font-bold text-primary">Uploading...</span>
+</div>
+<div class="h-2 w-full neomorph-inset rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-700" style="width: 45%;"></div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full neomorph-raised flex items-center justify-center text-error hover:shadow-inner">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Info/Stats -->
+<aside class="col-span-12 lg:col-span-5 space-y-8">
+<div class="p-6 rounded-xl neomorph-raised bg-background">
+<h3 class="text-lg font-semibold text-on-surface mb-4">Required Format</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded-full neomorph-inset flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="check">check</span>
+</div>
+<div>
+<p class="text-sm font-medium">Student ID</p>
+<p class="text-xs text-on-surface-variant">Unique identifier (Numeric)</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded-full neomorph-inset flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="check">check</span>
+</div>
+<div>
+<p class="text-sm font-medium">Full Name</p>
+<p class="text-xs text-on-surface-variant">First and last name strings</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-5 h-5 rounded-full neomorph-inset flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[14px]" data-icon="check">check</span>
+</div>
+<div>
+<p class="text-sm font-medium">Current Grade</p>
+<p class="text-xs text-on-surface-variant">Numeric value (1-12)</p>
+</div>
+</li>
+</ul>
+<button class="w-full mt-6 py-3 rounded-xl neomorph-inset text-on-surface-variant font-semibold text-sm flex items-center justify-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+            Download Template
+          </button>
+</div>
+<div class="p-6 rounded-xl neomorph-raised bg-background relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>
+<h3 class="text-lg font-semibold text-on-surface mb-2">Auto-Mapping</h3>
+<p class="text-sm text-on-surface-variant mb-4">Our AI will automatically detect headers and map them to the system fields.</p>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-background bg-slate-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-background bg-indigo-300"></div>
+<div class="w-8 h-8 rounded-full border-2 border-background bg-violet-300"></div>
+</div>
+<p class="text-[10px] font-bold text-primary uppercase tracking-widest">Active Intelligence</p>
+</div>
+</div>
+</aside>
+<!-- Preview Table -->
+<section class="col-span-12">
+<div class="p-8 rounded-xl neomorph-raised bg-background">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h3 class="text-xl font-semibold text-on-surface">Data Preview</h3>
+<p class="text-sm text-on-surface-variant">Showing results from: <span class="font-bold text-primary">fall_semester_2024.csv</span></p>
+</div>
+<div class="flex items-center gap-4">
+<div class="neomorph-inset px-4 py-2 rounded-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm p-0 w-48" placeholder="Search preview..." type="text"/>
+</div>
+<button class="px-6 py-2 rounded-xl neomorph-raised bg-primary text-on-primary font-bold hover:opacity-90 active:scale-95 transition-all">
+                Process Import
+              </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="text-left border-b border-outline-variant">
+<th class="pb-4 font-semibold text-on-surface-variant text-sm uppercase tracking-wider pl-4">Student ID</th>
+<th class="pb-4 font-semibold text-on-surface-variant text-sm uppercase tracking-wider">Full Name</th>
+<th class="pb-4 font-semibold text-on-surface-variant text-sm uppercase tracking-wider">Email Address</th>
+<th class="pb-4 font-semibold text-on-surface-variant text-sm uppercase tracking-wider">Grade</th>
+<th class="pb-4 font-semibold text-on-surface-variant text-sm uppercase tracking-wider text-right pr-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-4 font-medium text-primary text-sm">#STU-29384</td>
+<td class="py-4 text-sm font-semibold">Jordan Mitchell</td>
+<td class="py-4 text-sm text-on-surface-variant">j.mitchell@academy.edu</td>
+<td class="py-4">
+<span class="px-3 py-1 neomorph-inset rounded-lg text-xs font-bold text-on-surface">11th Grade</span>
+</td>
+<td class="py-4 text-right pr-4">
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">VALID</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-4 font-medium text-primary text-sm">#STU-29401</td>
+<td class="py-4 text-sm font-semibold">Sarah Jenkins</td>
+<td class="py-4 text-sm text-on-surface-variant">s.jenkins@academy.edu</td>
+<td class="py-4">
+<span class="px-3 py-1 neomorph-inset rounded-lg text-xs font-bold text-on-surface">10th Grade</span>
+</td>
+<td class="py-4 text-right pr-4">
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">VALID</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors bg-error/5">
+<td class="py-4 pl-4 font-medium text-primary text-sm">#STU-29415</td>
+<td class="py-4 text-sm font-semibold">David Chen</td>
+<td class="py-4 text-sm text-on-surface-variant">d.chen@academy.edu</td>
+<td class="py-4">
+<span class="px-3 py-1 neomorph-inset rounded-lg text-xs font-bold text-on-surface">N/A</span>
+</td>
+<td class="py-4 text-right pr-4">
+<span class="text-[10px] font-bold text-error bg-error-container px-2 py-1 rounded">INVALID GRADE</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-4 font-medium text-primary text-sm">#STU-29422</td>
+<td class="py-4 text-sm font-semibold">Elena Rodriguez</td>
+<td class="py-4 text-sm text-on-surface-variant">e.rod@academy.edu</td>
+<td class="py-4">
+<span class="px-3 py-1 neomorph-inset rounded-lg text-xs font-bold text-on-surface">12th Grade</span>
+</td>
+<td class="py-4 text-right pr-4">
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">VALID</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-4 pl-4 font-medium text-primary text-sm">#STU-29448</td>
+<td class="py-4 text-sm font-semibold">Marcus Thorne</td>
+<td class="py-4 text-sm text-on-surface-variant">m.thorne@academy.edu</td>
+<td class="py-4">
+<span class="px-3 py-1 neomorph-inset rounded-lg text-xs font-bold text-on-surface">11th Grade</span>
+</td>
+<td class="py-4 text-right pr-4">
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">VALID</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-6 flex justify-between items-center px-4">
+<p class="text-xs text-on-surface-variant">Showing 5 of 124 students found in CSV</p>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center hover:shadow-inner">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg neomorph-inset flex items-center justify-center text-primary font-bold text-xs">1</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-xs hover:shadow-inner">2</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-xs hover:shadow-inner">3</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center hover:shadow-inner">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Mobile Warning FAB (Hidden on MD) -->
+<button class="md:hidden fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-on-primary neomorph-raised flex items-center justify-center z-50">
+<span class="material-symbols-outlined" data-icon="add" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</body></html>

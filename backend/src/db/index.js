@@ -10,10 +10,10 @@ const logger   = require('../utils/logger');
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },  // required for most hosted PG
-      max: 10,
+      ssl: { rejectUnauthorized: false },
+      max: 5,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 10000,
     }
   : {
       host    : process.env.DB_HOST     || 'localhost',

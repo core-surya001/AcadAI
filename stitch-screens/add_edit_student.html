@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AcadAI | Edit Student Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#a78bfa",
+                        "surface-variant": "#dcdee4",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-secondary-fixed": "#1a1b26",
+                        "inverse-surface": "#2e3040",
+                        "tertiary": "#7c3aed",
+                        "background": "#e8eaf0",
+                        "surface-container-lowest": "#f0f2f8",
+                        "on-background": "#2e3040",
+                        "primary-fixed": "#e0e2ff",
+                        "on-surface": "#2e3040",
+                        "error-container": "#fee2e2",
+                        "surface-container-high": "#dcdee4",
+                        "on-surface-variant": "#585a68",
+                        "on-secondary-container": "#585a68",
+                        "surface": "#e8eaf0",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "on-tertiary-fixed": "#2e1065",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "outline-variant": "#d0d2dc",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5b4fc",
+                        "error": "#dc2626",
+                        "secondary": "#6c6e7e",
+                        "surface-container-highest": "#d6d8de",
+                        "secondary-container": "#d8dae6",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#1e1b4b",
+                        "on-error-container": "#991b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#edeef4",
+                        "primary-container": "#818cf8",
+                        "secondary-fixed": "#d8dae6",
+                        "on-secondary-fixed-variant": "#404252",
+                        "surface-tint": "#6366f1",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e2e4ea",
+                        "primary": "#6366f1",
+                        "on-tertiary-container": "#3b1f63",
+                        "tertiary-fixed": "#ede9fe",
+                        "surface-dim": "#d4d6dc",
+                        "outline": "#8a8c9a",
+                        "on-primary-container": "#e0e2ff",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-low": "#e5e7ed",
+                        "secondary-fixed-dim": "#b8baca"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .neomorph-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorph-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        body {
+            background-color: #e8eaf0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#e8eaf0] flex flex-col p-4 gap-4 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex flex-col gap-1 px-2 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#e8eaf0] neomorph-raised flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-primary leading-tight">AcadAI</h1>
+<p class="text-[10px] text-on-surface-variant font-medium">SaaS Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-3 mt-4">
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:text-primary transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<!-- Active Navigation State for Students page -->
+<a class="flex items-center gap-3 p-3 bg-[#e8eaf0] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-primary rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-semibold">Students</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:text-primary transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">cloud_upload</span>
+<span class="font-medium">Upload Data</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:text-primary transition-transform hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-medium">Reports</span>
+</a>
+</nav>
+<div class="mt-auto p-4 rounded-xl neomorph-inset bg-[#e8eaf0]">
+<p class="text-xs text-on-surface-variant font-medium mb-2">Storage Usage</p>
+<div class="w-full h-2 bg-[#e8eaf0] neomorph-inset rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[72%]"></div>
+</div>
+<p class="text-[10px] mt-2 text-right text-on-surface-variant">72% Full</p>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 flex-1 min-h-screen">
+<!-- TopAppBar Anchor -->
+<header class="flex justify-between items-center px-8 py-4 w-full sticky top-0 bg-[#e8eaf0] z-40">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-xl bg-[#e8eaf0] neomorph-raised flex items-center justify-center hover:shadow-inner transition-all duration-200 active:scale-95 cursor-pointer">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</div>
+<h2 class="text-xl font-extrabold text-on-surface tracking-tight">Edit Student Profile</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined p-2 text-on-surface hover:shadow-inner rounded-lg transition-all cursor-pointer">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-[#e8eaf0] neomorph-raised overflow-hidden cursor-pointer active:scale-95 transition-all">
+<img alt="Student avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling college student in a library setting with soft bookshelf lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5_VRQuO-I2TQW7HSgKsB9JjZtw_JgReM67npW8PYduLBkUevz1KcqyQB1Zpd0z-XU0Y7MtUkC0hjvcBcMDg6PEznayAZ30izkZQHL69jSwwwRnfBFVCaY9-_ehp_8nBRujxN8Eiabjvi1ipzUfDSUuWdhxPb-kU-Uvt8LPCd53YEuaEa3VYj54s0c3eI7n2u0zOjti9H2Fe3zvyuEEfRzSbl_XgMXvldXAVGJtU2J5SFQA4U05r75MHrmJ_ZgierRtAWQguv3YjY"/>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-5xl mx-auto">
+<!-- Form Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Student Quick Info Card -->
+<div class="lg:col-span-4 space-y-6">
+<div class="p-6 rounded-xl neomorph-raised bg-[#e8eaf0] flex flex-col items-center text-center">
+<div class="w-32 h-32 rounded-3xl neomorph-raised overflow-hidden mb-4 relative">
+<img class="w-full h-full object-cover" data-alt="Professional studio portrait of a young male student with glasses wearing a casual sweater against a soft gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGmPrxgtrkq7KAtYV0LKcXif789WQp6opJbHqgtZ6sJ7moOn45f-MC0H7hCvb6d6qYFQo2OC6Q6mF665tL4RqooLigwWko1XWOQC91d6gcqDfteoqcgh7VjM4XRhLNpRgeglw6MkoGskHkVFTrHhME9tscrtSBJF97W4PJY2uzQxCuvAYGc6GV8uGJWlCwekbiBG_cW7IU9dWuRePF1q7n41_6xwI84xVx4FKHEvKa_ReIh5YoOoRBJxuX8_K-XCrLsOQUIZhafMI"/>
+<button class="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center neomorph-raised">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</button>
+</div>
+<h3 class="text-lg font-semibold text-on-surface">Jordan Smith</h3>
+<p class="text-sm text-on-surface-variant mb-6">ID: AC-2024-8891</p>
+<div class="w-full space-y-3">
+<div class="flex justify-between items-center text-sm p-3 rounded-lg neomorph-inset">
+<span class="text-on-surface-variant">Class</span>
+<span class="font-semibold text-primary">Senior 2B</span>
+</div>
+<div class="flex justify-between items-center text-sm p-3 rounded-lg neomorph-inset">
+<span class="text-on-surface-variant">Status</span>
+<span class="font-semibold text-emerald-600">Active</span>
+</div>
+</div>
+</div>
+<div class="p-6 rounded-xl neomorph-raised bg-[#e8eaf0]">
+<h4 class="text-sm font-bold text-on-surface mb-4 uppercase tracking-wider">Quick Actions</h4>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-center justify-center p-4 rounded-xl neomorph-raised hover:shadow-inner active:scale-95 transition-all text-primary">
+<span class="material-symbols-outlined mb-1">mail</span>
+<span class="text-[10px] font-bold">Contact</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 rounded-xl neomorph-raised hover:shadow-inner active:scale-95 transition-all text-tertiary">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="text-[10px] font-bold">Logs</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Edit Form -->
+<div class="lg:col-span-8">
+<form class="space-y-6">
+<!-- Section: Basic Information -->
+<div class="p-8 rounded-2xl neomorph-raised bg-[#e8eaf0]">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary">person_edit</span>
+<h3 class="text-lg font-bold text-on-surface">Personal Information</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant px-1">Full Name</label>
+<div class="neomorph-inset rounded-xl flex items-center px-4 py-3">
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium" placeholder="Enter student name" type="text" value="Jordan Smith"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant px-1">Attendance Rate (%)</label>
+<div class="neomorph-inset rounded-xl flex items-center px-4 py-3">
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium" placeholder="e.g. 95" type="number" value="94"/>
+</div>
+<p class="text-[10px] text-emerald-600 font-medium px-1">High attendance rate maintainted</p>
+</div>
+</div>
+</div>
+<!-- Section: Academic Records -->
+<div class="p-8 rounded-2xl neomorph-raised bg-[#e8eaf0]">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+<h3 class="text-lg font-bold text-on-surface">Academic Performance</h3>
+</div>
+<div class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant px-1">Previous Marks (GPA)</label>
+<div class="neomorph-inset rounded-xl flex items-center px-4 py-3 border-2 border-transparent focus-within:border-primary/20 transition-all">
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium" placeholder="0.0 - 4.0" type="text" value="3.8"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant px-1">Current Semester Credits</label>
+<div class="neomorph-inset rounded-xl flex items-center px-4 py-3">
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface font-medium" type="number" value="18"/>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<label class="text-xs font-bold text-on-surface-variant px-1">Assignment Scores (Last 4)</label>
+<button class="text-xs font-bold text-primary flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-sm">add</span> Add New
+                                        </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="neomorph-inset rounded-xl p-3 flex flex-col gap-1 border-2 border-error/20">
+<span class="text-[9px] text-error font-bold uppercase">Math Quiz</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 w-full text-on-surface font-bold text-sm" type="text" value="65%"/>
+<p class="text-[8px] text-error">Requires review</p>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex flex-col gap-1">
+<span class="text-[9px] text-on-surface-variant font-bold uppercase">Science Lab</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 w-full text-on-surface font-bold text-sm" type="text" value="92%"/>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex flex-col gap-1">
+<span class="text-[9px] text-on-surface-variant font-bold uppercase">History Essay</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 w-full text-on-surface font-bold text-sm" type="text" value="88%"/>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex flex-col gap-1">
+<span class="text-[9px] text-on-surface-variant font-bold uppercase">Literature</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 w-full text-on-surface font-bold text-sm" type="text" value="90%"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex items-center justify-end gap-6 pt-4">
+<button class="px-8 py-3 rounded-xl font-bold text-on-surface-variant hover:text-on-surface transition-colors" type="button">
+                                Cancel
+                            </button>
+<button class="px-10 py-4 rounded-xl bg-[#e8eaf0] neomorph-raised text-primary font-extrabold hover:shadow-inner active:scale-95 transition-all flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                                Update Records
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- FAB Anchor for Quick Context -->
+<div class="fixed bottom-8 right-8">
+<button class="w-14 h-14 rounded-full bg-primary text-white neomorph-raised flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-xl">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+</div>
+</main>
+</body></html>

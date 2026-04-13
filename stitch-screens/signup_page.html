@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up | AcadAI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#a78bfa",
+                    "surface-bright": "#edeef4",
+                    "inverse-on-surface": "#e8eaf0",
+                    "primary": "#6366f1",
+                    "on-secondary-fixed-variant": "#404252",
+                    "on-background": "#2e3040",
+                    "surface-container-highest": "#d6d8de",
+                    "surface": "#e8eaf0",
+                    "error-container": "#fee2e2",
+                    "surface-container-high": "#dcdee4",
+                    "on-error-container": "#991b1b",
+                    "secondary-fixed": "#d8dae6",
+                    "outline": "#8a8c9a",
+                    "inverse-primary": "#a5b4fc",
+                    "error": "#dc2626",
+                    "surface-tint": "#6366f1",
+                    "tertiary": "#7c3aed",
+                    "surface-container-low": "#e5e7ed",
+                    "secondary": "#6c6e7e",
+                    "primary-fixed": "#e0e2ff",
+                    "on-secondary-fixed": "#1a1b26",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#1e1b4b",
+                    "secondary-fixed-dim": "#b8baca",
+                    "surface-variant": "#dcdee4",
+                    "tertiary-fixed-dim": "#c4b5fd",
+                    "surface-dim": "#d4d6dc",
+                    "secondary-container": "#d8dae6",
+                    "on-tertiary-fixed": "#2e1065",
+                    "inverse-surface": "#2e3040",
+                    "on-tertiary-fixed-variant": "#5b21b6",
+                    "primary-fixed-dim": "#a5b4fc",
+                    "primary-container": "#818cf8",
+                    "on-secondary-container": "#585a68",
+                    "surface-container-lowest": "#f0f2f8",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#585a68",
+                    "outline-variant": "#d0d2dc",
+                    "tertiary-fixed": "#ede9fe",
+                    "on-tertiary-container": "#3b1f63",
+                    "background": "#e8eaf0",
+                    "on-surface": "#2e3040",
+                    "surface-container": "#e2e4ea",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#4338ca",
+                    "on-primary-container": "#e0e2ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Plus Jakarta Sans"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .neomorphic-raised {
+            box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6);
+        }
+        .neomorphic-inset {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+        }
+        .neomorphic-active:active {
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5);
+            transform: scale(0.98);
+        }
+        body {
+            background-color: #e8eaf0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+<!-- Auth Container -->
+<div class="max-w-md w-full">
+<!-- Brand Header (Centered for focus) -->
+<div class="flex flex-col items-center mb-10">
+<div class="w-16 h-16 rounded-xl bg-[#e8eaf0] neomorphic-raised flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="school">school</span>
+</div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight">AcadAI</h1>
+<p class="text-on-surface-variant mt-2 font-medium">Join the future of education</p>
+</div>
+<!-- Signup Card -->
+<div class="bg-[#e8eaf0] rounded-xl p-8 neomorphic-raised border-none">
+<form class="space-y-6">
+<!-- Name Field -->
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant ml-1">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg" data-icon="person">person</span>
+<input class="w-full bg-[#e8eaf0] neomorphic-inset border-none rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Dr. Sarah Jenkins" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant ml-1">Work Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg" data-icon="mail">mail</span>
+<input class="w-full bg-[#e8eaf0] neomorphic-inset border-none rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all" placeholder="sarah.jenkins@university.edu" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant ml-1">Secure Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-lg" data-icon="lock">lock</span>
+<input class="w-full bg-[#e8eaf0] neomorphic-inset border-none rounded-xl py-4 pl-12 pr-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all" placeholder="••••••••••••" type="password"/>
+</div>
+</div>
+<!-- Role Selection -->
+<div class="space-y-3">
+<label class="text-sm font-semibold text-on-surface-variant ml-1">Institutional Role</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="cursor-pointer group">
+<input checked="" class="hidden peer" name="role" type="radio" value="teacher"/>
+<div class="bg-[#e8eaf0] neomorphic-raised peer-checked:neomorphic-inset flex flex-col items-center justify-center p-4 rounded-xl transition-all border-none">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors mb-2" data-icon="history_edu">history_edu</span>
+<span class="text-sm font-medium text-on-surface">Teacher</span>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" name="role" type="radio" value="admin"/>
+<div class="bg-[#e8eaf0] neomorphic-raised peer-checked:neomorphic-inset flex flex-col items-center justify-center p-4 rounded-xl transition-all border-none">
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors mb-2" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="text-sm font-medium text-on-surface">Admin</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Terms -->
+<div class="flex items-start gap-3 py-2">
+<div class="neomorphic-raised rounded-md p-1 bg-[#e8eaf0]">
+<input class="w-4 h-4 rounded border-none bg-surface-container-highest text-primary focus:ring-0 cursor-pointer" type="checkbox"/>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                        I agree to the <a class="text-primary hover:underline font-semibold" href="#">Terms of Service</a> and <a class="text-primary hover:underline font-semibold" href="#">Privacy Policy</a> regarding academic data handling.
+                    </p>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-[#e8eaf0] neomorphic-raised neomorphic-active py-4 rounded-xl text-primary font-bold text-lg hover:shadow-inner transition-all duration-200" type="submit">
+                    Create Account
+                </button>
+</form>
+<!-- Login Link -->
+<div class="mt-8 text-center">
+<p class="text-sm text-on-surface-variant">
+                    Already have an institutional account? 
+                    <a class="text-primary font-bold ml-1 hover:underline" href="#">Sign In</a>
+</p>
+</div>
+</div>
+<!-- Bottom Branding/Trust Section -->
+<div class="mt-10 grid grid-cols-3 gap-4 opacity-60">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="encrypted">encrypted</span>
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Secure</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="cloud_done">cloud_done</span>
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Synced</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="verified_user">verified_user</span>
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">GDPR Compliant</span>
+</div>
+</div>
+</div>
+</body></html>

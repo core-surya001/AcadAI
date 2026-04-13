@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AcadAI Students - SaaS Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#a78bfa",
+                        "surface-variant": "#dcdee4",
+                        "on-primary-fixed-variant": "#4338ca",
+                        "on-secondary-fixed": "#1a1b26",
+                        "inverse-surface": "#2e3040",
+                        "tertiary": "#7c3aed",
+                        "background": "#e8eaf0",
+                        "surface-container-lowest": "#f0f2f8",
+                        "on-background": "#2e3040",
+                        "primary-fixed": "#e0e2ff",
+                        "on-surface": "#2e3040",
+                        "error-container": "#fee2e2",
+                        "surface-container-high": "#dcdee4",
+                        "on-surface-variant": "#585a68",
+                        "on-secondary-container": "#585a68",
+                        "surface": "#e8eaf0",
+                        "on-tertiary-fixed-variant": "#5b21b6",
+                        "on-tertiary-fixed": "#2e1065",
+                        "tertiary-fixed-dim": "#c4b5fd",
+                        "primary-fixed-dim": "#a5b4fc",
+                        "outline-variant": "#d0d2dc",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#a5b4fc",
+                        "error": "#dc2626",
+                        "secondary": "#6c6e7e",
+                        "surface-container-highest": "#d6d8de",
+                        "secondary-container": "#d8dae6",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#1e1b4b",
+                        "on-error-container": "#991b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#edeef4",
+                        "primary-container": "#818cf8",
+                        "secondary-fixed": "#d8dae6",
+                        "on-secondary-fixed-variant": "#404252",
+                        "surface-tint": "#6366f1",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e2e4ea",
+                        "primary": "#6366f1",
+                        "on-tertiary-container": "#3b1f63",
+                        "tertiary-fixed": "#ede9fe",
+                        "surface-dim": "#d4d6dc",
+                        "outline": "#8a8c9a",
+                        "on-primary-container": "#e0e2ff",
+                        "inverse-on-surface": "#e8eaf0",
+                        "surface-container-low": "#e5e7ed",
+                        "secondary-fixed-dim": "#b8baca"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #e8eaf0; }
+        .neomorph-raised { box-shadow: 6px 6px 12px rgba(0,0,0,0.08), -6px -6px 12px rgba(255,255,255,0.6); }
+        .neomorph-inset { box-shadow: inset 4px 4px 8px rgba(0,0,0,0.06), inset -4px -4px 8px rgba(255,255,255,0.5); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#e8eaf0] flex flex-col p-4 gap-4 shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] z-50">
+<div class="flex items-center gap-3 px-2 py-4 mb-4">
+<div class="w-10 h-10 rounded-xl neomorph-raised flex items-center justify-center bg-background">
+<span class="material-symbols-outlined text-primary" data-icon="school">school</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-indigo-600 leading-none">AcadAI</h1>
+<p class="text-[10px] text-slate-500 font-medium tracking-wider uppercase mt-1">SaaS Admin</p>
+</div>
+</div>
+<nav class="flex flex-col gap-3">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<!-- Active State: Students -->
+<a class="flex items-center gap-3 px-4 py-3 bg-[#e8eaf0] shadow-[inset_4px_4px_8px_rgba(0,0,0,0.06),inset_-4px_-4px_8px_rgba(255,255,255,0.5)] text-indigo-600 rounded-xl active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-semibold">Students</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="font-medium">Upload Data</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-medium">Reports</span>
+</a>
+</nav>
+<div class="mt-auto p-2">
+<div class="neomorph-inset p-4 rounded-xl">
+<p class="text-xs font-semibold text-on-surface-variant mb-2 text-center uppercase tracking-tighter">Storage Usage</p>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant text-center">6.5 GB of 10 GB used</p>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen p-8">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-6 py-3 w-full bg-[#e8eaf0] shadow-[6px_6px_12px_rgba(0,0,0,0.08),-6px_-6px_12px_rgba(255,255,255,0.6)] rounded-xl mb-8">
+<div class="flex items-center flex-1 max-w-md neomorph-inset px-4 py-2 rounded-full gap-3">
+<span class="material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-full placeholder:text-slate-400" placeholder="Search students, classes, or IDs..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="w-10 h-10 rounded-full neomorph-raised flex items-center justify-center text-slate-500 hover:shadow-inner transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3 border-l-2 border-outline-variant pl-6">
+<div class="text-right">
+<p class="text-sm font-semibold text-on-surface">Alex Rivera</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Administrator</p>
+</div>
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised p-0.5" data-alt="Close-up professional headshot avatar of a young administrator with modern glasses and a friendly expression in a digital style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf2RS63HV2YjfwvpbVwkviB0nNqJdQ_aexUO0L83r_-0Y5NC-d5d4TvaSWYZm4kjUrzZH8d0feZojAnMKP6DR6zP6UZbIP7Fmx79Vw6wA_FTwdR0LGWELY1ZHCM_xVJ6JTPVQtO8L_wShxvGM8Fz-UdZ4aTwHIgSebuBdrlxHkmEZWH7GWoC6QdCPG8tuvLpoZDpKMDrSS5ymkar-EbAAXZ6Y_knBdSGmZPf-VGGNyPfhPAqxJY-ms3lLHAD8ff4n7MtyEX_p-G9k"/>
+</div>
+</div>
+</header>
+<!-- Content Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight">Student Directory</h2>
+<p class="text-on-surface-variant mt-1">Manage and monitor student performance and academic risk factors.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-6 py-3 bg-[#e8eaf0] neomorph-raised rounded-xl text-primary font-semibold hover:shadow-inner active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                    Export
+                </button>
+<button class="flex items-center gap-2 px-6 py-3 bg-[#e8eaf0] neomorph-raised rounded-xl text-indigo-600 font-bold hover:shadow-inner active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    Add Student
+                </button>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="neomorph-inset rounded-xl p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 ml-2" data-icon="filter_list">filter_list</span>
+<select class="bg-transparent border-none focus:ring-0 text-sm font-medium w-full text-on-surface">
+<option>All Classes</option>
+<option>Grade 10-A</option>
+<option>Grade 10-B</option>
+<option>Grade 11-A</option>
+</select>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 ml-2" data-icon="warning">warning</span>
+<select class="bg-transparent border-none focus:ring-0 text-sm font-medium w-full text-on-surface">
+<option>All Risk Levels</option>
+<option>High Risk</option>
+<option>Medium Risk</option>
+<option>Low Risk</option>
+</select>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 ml-2" data-icon="calendar_month">calendar_month</span>
+<select class="bg-transparent border-none focus:ring-0 text-sm font-medium w-full text-on-surface">
+<option>Semester 1</option>
+<option>Semester 2</option>
+</select>
+</div>
+<div class="neomorph-inset rounded-xl p-3 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 ml-2" data-icon="sort">sort</span>
+<select class="bg-transparent border-none focus:ring-0 text-sm font-medium w-full text-on-surface">
+<option>Sort by Score</option>
+<option>Sort by Name</option>
+<option>Sort by Attendance</option>
+</select>
+</div>
+</div>
+<!-- Students Table Section -->
+<div class="neomorph-raised rounded-xl overflow-hidden bg-background">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30">
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500">Student Name</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Class</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Attendance</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Score</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500 text-center">Risk Level</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-slate-500 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised p-0.5" data-alt="Digital avatar of a teenage student with curly brown hair and a bright smile wearing a casual yellow hoodie" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ8376cjYP0XoKmLyuOubQPj0c3dUb2SZfJ7eZhzC4Lfmd6NdxhXsYR5NTcbDeoguYJkcFaGaGAN3BAYF6p7ClPbTyBlMcntziKdNqWYnIU3QPE1zG9KsjFYqBIkKrknok_dQckVm_PHDgbObrDR5XIWmVUVlY1w0t9wOArS-g8hbvzHFl3yIpBqWG8MFfMbz9J0BOpp8n6waHvywOG8yb1DUce1CxMf2BkCPb-odVnrcY2V72HLB1ALdLUUFBmTksroX6acFhP0U"/>
+<div>
+<p class="text-sm font-semibold text-on-surface">Elena Rodriguez</p>
+<p class="text-xs text-slate-500">ID: #STU-24012</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-xs font-medium px-3 py-1 neomorph-inset rounded-full text-indigo-600">Grade 11-A</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-on-surface">94%</span>
+<div class="w-20 h-1.5 neomorph-inset rounded-full overflow-hidden">
+<div class="bg-indigo-500 h-full w-[94%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-sm font-bold text-on-surface">8.2</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Low Risk
+                            </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised p-0.5" data-alt="Digital avatar of a student with short blonde hair wearing glasses and a striped t-shirt looking thoughtful" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtFiynS_67PNvvKSJTAV-z95-8-lje6FyLXNyr45R4WebR_Nu6LrMO105Fa8fq5bpLACOFw8_K6j7sCNq40UGG4oJjtIKXs8BuCbvK6wxIuSIBYXiWRutHL-s5bYodK7un_5DiC-DdoqRrG6rg1KjW7sfvQBuTfVNbj2yfuxk7es8AesPuX0B91PLpZxh6ofUsCdvQJU5T-r0KQrnv2kuKD7-N4xU1lkHwQEdxt0ecgIWyDS-r_r4SH7Ec-4KKZZIWOB2mAYL0dnE"/>
+<div>
+<p class="text-sm font-semibold text-on-surface">Marcus Thorne</p>
+<p class="text-xs text-slate-500">ID: #STU-24015</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-xs font-medium px-3 py-1 neomorph-inset rounded-full text-indigo-600">Grade 11-B</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-on-surface">62%</span>
+<div class="w-20 h-1.5 neomorph-inset rounded-full overflow-hidden">
+<div class="bg-error h-full w-[62%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-sm font-bold text-on-surface">4.5</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-error text-[10px] font-bold uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                High Risk
+                            </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised p-0.5" data-alt="Digital avatar of a student with black hair and a baseball cap wearing a green varsity jacket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-r4e6OvK1xBasfhaG_cpLroeleGLp2k2CKLi_PTSo4bMvyzK65tP7dIvjnjDL91GzychH7bA0hpQjjKfiYjmCRSFPpJEB31NQFhXZIWppPwhG11kmZ1Ka5pSxBs2z3oMBrk8QGmvvi9xsEkYO4-44Br-4bRI4S1n1jgUdgwSdJgSN9coLv-noXx2ezLo8Zy_JkiN7CTr0o_VFPXF2V7Rz0yLrxOoPLpMdiu87eIa_6ak2iIdWmUBp9G2dgwES9avxKFL9VGCZaHY"/>
+<div>
+<p class="text-sm font-semibold text-on-surface">Li Wei</p>
+<p class="text-xs text-slate-500">ID: #STU-24018</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-xs font-medium px-3 py-1 neomorph-inset rounded-full text-indigo-600">Grade 11-A</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-on-surface">88%</span>
+<div class="w-20 h-1.5 neomorph-inset rounded-full overflow-hidden">
+<div class="bg-amber-400 h-full w-[88%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-sm font-bold text-on-surface">7.8</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-[10px] font-bold uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                                Medium Risk
+                            </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Student avatar" class="w-10 h-10 rounded-full neomorph-raised p-0.5" data-alt="Digital avatar of a student with long red hair and a denim jacket looking cheerful and artistic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQUsSJMwBfCcoeNw1znwopWFpaBe-KBgaqqqCyrnJmf2qQ_x7US6cCFkPr0fPwoxlPahmskmVt27-oyFPQJdjx32cwf_wdIcZaHw0cmvAY1GP6nXsOg8LfL3Jsjrtf8BhzTrH9PtrMzTzcnwOXEKtFQzA4GUpJOUGBllH97QpqlqGqcUhbVkuAcNnSxB0vRG3yaRnsv2bdHZwjZaqERv9fG6MEG6knFObxZ2Lbhaf4uZnhsvkULam4nHXFdou66bNaf2srKSClhC4"/>
+<div>
+<p class="text-sm font-semibold text-on-surface">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">ID: #STU-24021</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-xs font-medium px-3 py-1 neomorph-inset rounded-full text-indigo-600">Grade 10-C</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-on-surface">99%</span>
+<div class="w-20 h-1.5 neomorph-inset rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full w-[99%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="text-sm font-bold text-on-surface">9.5</span>
+</td>
+<td class="px-6 py-4 text-center">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Low Risk
+                            </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Footer -->
+<div class="px-6 py-6 border-t border-outline-variant/30 flex items-center justify-between">
+<p class="text-xs text-slate-500 font-medium">Showing <span class="text-on-surface">1-4</span> of <span class="text-on-surface">1,240</span> students</p>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-400 opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg neomorph-inset flex items-center justify-center text-indigo-600 font-bold text-xs">1</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-600 font-medium text-xs hover:shadow-inner">2</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-600 font-medium text-xs hover:shadow-inner">3</button>
+<span class="text-slate-400 px-1 text-xs">...</span>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-600 font-medium text-xs hover:shadow-inner">45</button>
+<button class="w-8 h-8 rounded-lg neomorph-raised flex items-center justify-center text-slate-600 hover:shadow-inner transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Analytical Bento Sidebar/Cards for Context -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+<div class="neomorph-raised p-6 rounded-xl relative overflow-hidden group">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-xl neomorph-inset flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-indigo-600" data-icon="troubleshoot">troubleshoot</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Risk Summary</h3>
+<p class="text-sm text-on-surface-variant mb-4">12 students identified as critically underperforming this week.</p>
+<button class="text-xs font-bold text-indigo-600 uppercase tracking-widest hover:underline flex items-center gap-1">
+                        View Details
+                        <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]" data-icon="monitoring">monitoring</span>
+</div>
+</div>
+<div class="neomorph-raised p-6 rounded-xl relative overflow-hidden group">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-xl neomorph-inset flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-emerald-600" data-icon="auto_graph">auto_graph</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">Average Growth</h3>
+<p class="text-sm text-on-surface-variant mb-4">+14.2% academic progress across all cohorts since last month.</p>
+<button class="text-xs font-bold text-emerald-600 uppercase tracking-widest hover:underline flex items-center gap-1">
+                        Full Report
+                        <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px]" data-icon="show_chart">show_chart</span>
+</div>
+</div>
+<div class="neomorph-raised p-6 rounded-xl relative overflow-hidden group bg-gradient-to-br from-indigo-50/50 to-transparent">
+<div class="relative z-10">
+<div class="w-12 h-12 rounded-xl neomorph-inset flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-indigo-600" data-icon="psychology_alt">psychology_alt</span>
+</div>
+<h3 class="text-lg font-bold text-on-surface mb-1">AI Prediction</h3>
+<p class="text-sm text-on-surface-variant mb-4">Based on current trends, 92% of Grade 11 will pass the next exam.</p>
+<button class="text-xs font-bold text-indigo-600 uppercase tracking-widest hover:underline flex items-center gap-1">
+                        AI Insights
+                        <span class="material-symbols-outlined text-xs" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
