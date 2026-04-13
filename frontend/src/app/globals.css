@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ──────────────────────────────────────────────────────────── */
+:root {
+  --color-primary:           #6366f1;
+  --color-primary-container: #818cf8;
+  --color-tertiary:          #7c3aed;
+  --color-background:        #e8eaf0;
+  --color-surface:           #e8eaf0;
+  --color-on-surface:        #2e3040;
+  --color-on-surface-var:    #585a68;
+  --color-outline:           #8a8c9a;
+  --color-outline-var:       #d0d2dc;
+  --color-error:             #dc2626;
+  --color-error-container:   #fee2e2;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────────── */
+html, body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-plus-jakarta), 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ─── Neomorphic helpers ─────────────────────────────────────────────────────── */
+.neo-raised {
+  box-shadow:
+    6px  6px 12px rgba(0, 0, 0, 0.08),
+   -6px -6px 12px rgba(255, 255, 255, 0.6);
+}
+
+.neo-inset {
+  box-shadow:
+    inset  4px  4px 8px rgba(0, 0, 0, 0.06),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+}
+
+.neo-raised-sm {
+  box-shadow:
+    3px  3px 6px rgba(0, 0, 0, 0.07),
+   -3px -3px 6px rgba(255, 255, 255, 0.55);
+}
+
+/* ─── Material Symbols ───────────────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+.icon-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────────── */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes barGrow {
+  from { height: 0; }
+}
+
+.animate-slide-in-left { animation: slideInLeft 0.3s ease forwards; }
+.animate-fade-in-up    { animation: fadeInUp   0.4s ease forwards; }
+.bar-animated          { animation: barGrow    0.8s ease forwards; }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #c4c6d0; border-radius: 9999px; }
+
+/* ─── Focus ring ─────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
