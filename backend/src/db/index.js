@@ -4,13 +4,10 @@ const { Pool } = require('pg');
 const logger   = require('../utils/logger');
 
 // ─── Support both individual vars AND a single DATABASE_URL ───────────────────
-// Hosted providers (Neon, Render, Railway) give you a DATABASE_URL.
-// For local development, individual DB_* vars are used.
-
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
+      ssl: true,   // Neon requires SSL — 'true' enables SNI routing
       max: 5,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,
@@ -34,13 +31,11 @@ pool.on('error', (err) => {
 
 /**
  * Helper to run parameterised queries.
- * Usage: const { rows } = await db.query('SELECT * FROM students WHERE id=$1', [id]);
  */
 const query = (text, params) => pool.query(text, params);
 
 /**
  * Grab a dedicated client for multi-statement transactions.
- * Remember to call client.release() when done.
  */
 const getClient = () => pool.connect();
 

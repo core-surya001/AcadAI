@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 5000;
 async function connectWithRetry(retries = 5, delay = 3000) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      await db.query('SELECT 1');
-      logger.info('✅  PostgreSQL connected');
+      const result = await db.query('SELECT NOW()');
+      logger.info(`✅  PostgreSQL connected at ${result.rows[0].now}`);
       return;
     } catch (err) {
-      logger.warn(`⏳  DB connection attempt ${attempt}/${retries} failed: ${err.message}`);
+      logger.warn(`⏳  DB connection attempt ${attempt}/${retries} failed: ${err.message} (code: ${err.code || 'N/A'})`);
       if (attempt === retries) throw err;
       await new Promise((r) => setTimeout(r, delay));
     }
@@ -25,6 +25,14 @@ async function connectWithRetry(retries = 5, delay = 3000) {
 }
 
 async function startServer() {
+  // Log connection info for debugging (mask password)
+  if (process.env.DATABASE_URL) {
+    const masked = process.env.DATABASE_URL.replace(/:([^:@]+)@/, ':****@');
+    logger.info(`📡  Using DATABASE_URL: ${masked}`);
+  } else {
+    logger.info(`📡  Using local DB: ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
+  }
+
   try {
     await connectWithRetry();
 
@@ -33,7 +41,7 @@ async function startServer() {
       logger.info(`    Environment : ${process.env.NODE_ENV}`);
     });
   } catch (err) {
-    logger.error('❌  Failed to connect to PostgreSQL:', err.message);
+    logger.error(`❌  Failed to connect to PostgreSQL: ${err.message} (code: ${err.code || 'N/A'})`);
     process.exit(1);
   }
 }
