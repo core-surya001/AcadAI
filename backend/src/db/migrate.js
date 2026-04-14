@@ -59,12 +59,17 @@ CREATE TABLE IF NOT EXISTS prediction_logs (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- ─── OAuth support ────────────────────────────────────────────────────────────
+ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE;
+
 -- ─── Indexes ──────────────────────────────────────────────────────────────────
 CREATE INDEX IF NOT EXISTS idx_students_risk_level  ON students(risk_level);
 CREATE INDEX IF NOT EXISTS idx_students_grade        ON students(grade);
 CREATE INDEX IF NOT EXISTS idx_students_name         ON students USING gin(to_tsvector('english', name));
 CREATE INDEX IF NOT EXISTS idx_pred_logs_student     ON prediction_logs(student_id);
 CREATE INDEX IF NOT EXISTS idx_pred_logs_created     ON prediction_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_users_google_id       ON users(google_id);
 
 -- ─── Auto-update updated_at ───────────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION update_updated_at_column()

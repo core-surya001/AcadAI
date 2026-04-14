@@ -223,6 +223,23 @@ export async function register(
   return { token: body.data.token, user: { name: body.data.user.name, role: body.data.user.role } };
 }
 
+export async function googleLogin(
+  credential: string,
+): Promise<{ token: string; user: { name: string; role: string } }> {
+  const body = await apiFetch<{
+    success: boolean;
+    data: { token: string; user: { id: string; name: string; email: string; role: string } };
+  }>('/auth/google', {
+    method: 'POST',
+    body: JSON.stringify({ credential }),
+  });
+
+  saveToken(body.data.token);
+  saveUser({ name: body.data.user.name, role: body.data.user.role });
+
+  return { token: body.data.token, user: { name: body.data.user.name, role: body.data.user.role } };
+}
+
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 
 export async function getDashboardStats(): Promise<DashboardStats> {

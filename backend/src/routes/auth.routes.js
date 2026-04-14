@@ -65,4 +65,10 @@ router.get('/me', protect, authCtrl.getMe);
  */
 router.post('/refresh', protect, authCtrl.refresh);
 
+/**
+ * POST /api/v1/auth/google
+ * Verify a Google ID token and return a JWT.
+ */
+router.post('/google', authLimiter, authCtrl.googleLogin);
+
 module.exports = router;

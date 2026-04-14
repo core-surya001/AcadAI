@@ -83,6 +83,12 @@ html, body {
 .animate-fade-in-up    { animation: fadeInUp   0.4s ease forwards; }
 .bar-animated          { animation: barGrow    0.8s ease forwards; }
 
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+.animate-slide-down { animation: slideDown 0.3s ease forwards; }
+
 /* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track  { background: transparent; }

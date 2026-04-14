@@ -44,6 +44,43 @@ const UserModel = {
     );
     return rows[0];
   },
+
+  /**
+   * Find a user by their Google ID (used for OAuth login).
+   */
+  async findByGoogleId(googleId) {
+    const { rows } = await db.query(
+      `SELECT id, name, email, role, is_active, google_id
+         FROM users WHERE google_id = $1`,
+      [googleId]
+    );
+    return rows[0] || null;
+  },
+
+  /**
+   * Create a new user from Google OAuth (no password required).
+   */
+  async createFromGoogle({ name, email, googleId, role = 'teacher' }) {
+    const { rows } = await db.query(
+      `INSERT INTO users (name, email, google_id, role)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, name, email, role, created_at`,
+      [name, email, googleId, role]
+    );
+    return rows[0];
+  },
+
+  /**
+   * Link a Google ID to an existing user account.
+   */
+  async linkGoogleId(userId, googleId) {
+    const { rows } = await db.query(
+      `UPDATE users SET google_id = $1 WHERE id = $2
+       RETURNING id, name, email, role`,
+      [googleId, userId]
+    );
+    return rows[0];
+  },
 };
 
 module.exports = UserModel;
