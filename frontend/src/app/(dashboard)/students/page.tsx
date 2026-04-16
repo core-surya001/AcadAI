@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { getStudents, deleteStudent, type Student, type RiskLevel } from '@/lib/api';
 
@@ -20,21 +20,28 @@ export default function StudentsPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     getStudents({ search, risk, sort })
       .then(({ students: s, total: t }) => { setStudents(s); setTotal(t); })
+      .catch(() => { setStudents([]); setTotal(0); })
       .finally(() => setLoading(false));
-  };
+  }, [search, risk, sort]);
 
-  useEffect(() => { load(); }, [search, risk, sort]);
+  useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this student?')) return;
     setDeletingId(id);
-    await deleteStudent(id);
-    load();
-    setDeletingId(null);
-    setMenuOpen(null);
+    try {
+      await deleteStudent(id);
+      load();
+    } catch {
+      // Silently handle — the student list will just not update
+    } finally {
+      setDeletingId(null);
+      setMenuOpen(null);
+    }
   };
 
   const attendanceColor = (v: number) =>

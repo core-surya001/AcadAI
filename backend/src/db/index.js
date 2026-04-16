@@ -7,7 +7,7 @@ const logger   = require('../utils/logger');
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      ssl: true,   // Neon requires SSL — 'true' enables SNI routing
+      ssl: { rejectUnauthorized: false }, // Required for Neon / Render / Railway
       max: 5,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,

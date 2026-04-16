@@ -60,7 +60,12 @@ CREATE TABLE IF NOT EXISTS prediction_logs (
 );
 
 -- ─── OAuth support ────────────────────────────────────────────────────────────
-ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+DO $$
+BEGIN
+  -- Make password nullable (Google OAuth users have no password)
+  ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+EXCEPTION WHEN others THEN NULL; END;
+$$;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE;
 
 -- ─── Indexes ──────────────────────────────────────────────────────────────────

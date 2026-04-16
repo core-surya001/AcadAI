@@ -13,14 +13,26 @@ export default function DashboardPage() {
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [chartMode, setChartMode] = useState<'weekly' | 'monthly'>('weekly');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([getDashboardStats(), getPerformanceTrends(), getClassDistribution(), getRecentActivity()])
-      .then(([s, t, c, a]) => { setStats(s); setTrends(t); setClassDist(c); setActivity(a); })
+      .then(([s, t, c, a]) => { setStats(s); setTrends(t); setClassDist(c); setActivity(a); setError(null); })
+      .catch((err: unknown) => setError(err instanceof Error ? err.message : 'Failed to load dashboard data'))
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <LoadingSkeleton />;
+
+  if (error) return (
+    <div className="flex flex-col items-center justify-center py-32 gap-4">
+      <span className="material-symbols-outlined text-red-400 text-5xl">error</span>
+      <p className="text-slate-600 font-medium">{error}</p>
+      <button onClick={() => window.location.reload()} className="px-6 py-2 neo-raised rounded-xl text-indigo-600 font-bold hover:neo-inset transition-all">
+        Retry
+      </button>
+    </div>
+  );
 
   return (
     <div className="animate-fade-in-up">

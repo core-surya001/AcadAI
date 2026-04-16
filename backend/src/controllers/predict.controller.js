@@ -1,6 +1,5 @@
 'use strict';
 
-const fetch  = require('node:http').request;          // built-in, no extra dep
 const StudentModel     = require('../models/student.model');
 const PredictionLogModel = require('../models/prediction.model');
 const { AppError }     = require('../utils/appError');

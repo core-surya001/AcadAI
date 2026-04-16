@@ -32,6 +32,7 @@ export interface DashboardStats {
   averageScoreTrend: number;
   atRiskStudents: number;
   atRiskNew: number;
+  avgAttendance: number;
 }
 
 export interface ActivityItem {

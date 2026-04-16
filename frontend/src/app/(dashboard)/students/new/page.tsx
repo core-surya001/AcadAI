@@ -1,28 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { getStudentById, updateStudent, createStudent, type Student, type RiskLevel } from '@/lib/api';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createStudent, type Student, type RiskLevel } from '@/lib/api';
 
 const GRADES = ['Grade 10-A', 'Grade 10-B', 'Grade 10-C', 'Grade 11-A', 'Grade 11-B', 'Grade 12-A'];
 const MAJORS = ['Computer Science', 'Mathematics', 'Physics', 'Philosophy', 'Arts'];
 const SEMESTERS = ['1st / Fall', '2nd / Spring', '3rd / Fall', '4th / Spring'];
 
-export default function StudentFormPage() {
-  const { id } = useParams<{ id?: string }>();
+export default function NewStudentPage() {
   const router = useRouter();
-  const isNew = !id || id === 'new';
 
   const [form, setForm] = useState<Partial<Student>>({ riskLevel: 'low', attendance: 80, score: 7.0 });
-  const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    if (!isNew) {
-      getStudentById(id).then((s) => { if (s) setForm(s); setLoading(false); });
-    }
-  }, [id, isNew]);
+  const [submitError, setSubmitError] = useState('');
 
   const set = (key: keyof Student, value: string | number) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -41,16 +33,16 @@ export default function StudentFormPage() {
     e.preventDefault();
     if (!validate()) return;
     setSaving(true);
+    setSubmitError('');
     try {
-      if (isNew) { await createStudent(form); }
-      else { await updateStudent(id, form); }
+      await createStudent(form);
       router.push('/students');
+    } catch (err: unknown) {
+      setSubmitError(err instanceof Error ? err.message : 'Failed to create student. Please try again.');
     } finally {
       setSaving(false);
     }
   };
-
-  if (loading) return <div className="text-slate-400 text-center py-32">Loading…</div>;
 
   const Field = ({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) => (
     <div className="space-y-1.5">
@@ -67,8 +59,15 @@ export default function StudentFormPage() {
       </button>
 
       <div className="neo-raised rounded-3xl p-8 bg-[#e8eaf0]">
-        <h2 className="text-2xl font-bold text-slate-800 mb-2">{isNew ? 'Add New Student' : 'Edit Student'}</h2>
-        <p className="text-slate-500 text-sm mb-8">{isNew ? 'Fill in the details to create a new student record.' : `Editing record for ${form.name}`}</p>
+        <h2 className="text-2xl font-bold text-slate-800 mb-2">Add New Student</h2>
+        <p className="text-slate-500 text-sm mb-8">Fill in the details to create a new student record.</p>
+
+        {submitError && (
+          <div className="mb-4 neo-inset rounded-xl px-4 py-3 bg-red-50 flex items-center gap-3">
+            <span className="material-symbols-outlined text-red-500 text-base">error</span>
+            <p className="text-sm text-red-600 font-medium">{submitError}</p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -183,7 +182,7 @@ export default function StudentFormPage() {
               disabled={saving}
               className="flex-1 py-4 neo-raised rounded-xl text-indigo-600 font-bold hover:neo-inset transition-all active:scale-95 disabled:opacity-50"
             >
-              {saving ? 'Saving…' : isNew ? 'Create Student' : 'Update Student'}
+              {saving ? 'Saving…' : 'Create Student'}
             </button>
           </div>
         </form>

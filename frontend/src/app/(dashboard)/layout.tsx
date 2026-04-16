@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const pathname = usePathname();
   const [authState, setAuthState] = useState<'loading' | 'authenticated' | 'unauthenticated'>('loading');
 
   useEffect(() => {
-    // Only check auth on the client after hydration
+    // Only check auth once on mount (client-side after hydration)
     const token = localStorage.getItem('acadai_token');
     if (!token) {
       setAuthState('unauthenticated');
@@ -19,7 +18,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     } else {
       setAuthState('authenticated');
     }
-  }, [pathname, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Show loading state while checking auth
   if (authState === 'loading') {
