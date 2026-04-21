@@ -22,7 +22,7 @@ const predictRules = [
   body('grade').trim().notEmpty().withMessage('Grade is required'),
   body('major').trim().notEmpty().withMessage('Major is required'),
   body('semester').optional().trim(),
-  body('studentId').optional().isString(),
+  body('studentId').optional(),  // accepts numeric BIGINT or string student_code
 ];
 
 const batchRules = [
@@ -30,7 +30,8 @@ const batchRules = [
     .isArray({ min: 1, max: 50 })
     .withMessage('studentIds must be a non-empty array of up to 50 IDs'),
   body('studentIds.*')
-    .isString().withMessage('Each studentId must be a string'),
+    // Accept both numeric BIGINT IDs and student_code strings (e.g. "STU-24012")
+    .notEmpty().withMessage('Each studentId must not be empty'),
 ];
 
 // ─── Routes ───────────────────────────────────────────────────────────────────

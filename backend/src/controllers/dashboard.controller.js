@@ -1,10 +1,12 @@
 'use strict';
 
-const StudentModel = require('../models/student.model');
+const StudentModel        = require('../models/student.model');
+const PredictionLogModel  = require('../models/prediction.model');
 
 /**
  * GET /dashboard/stats
- * Returns aggregate stats for the dashboard overview cards.
+ * Hits the `dashboard_stats` VIEW which queries student_risk_summary.
+ * Zero live table scans. Refresh the materialized view separately.
  */
 exports.getStats = async (req, res, next) => {
   try {
@@ -12,14 +14,15 @@ exports.getStats = async (req, res, next) => {
 
     res.json({
       success: true,
-      data   : {
-        totalStudents      : parseInt(stats.total_students),
-        totalStudentsTrend : 4.2,                              // placeholder — wire to time-series later
-        averageScore       : parseFloat(stats.average_score),
-        averageScoreTrend  : 1.8,
-        atRiskStudents     : parseInt(stats.at_risk_students),
-        atRiskNew          : parseInt(stats.high_risk_count),
-        avgAttendance      : parseFloat(stats.avg_attendance),
+      data: {
+        totalStudents     : parseInt(stats.total_students,    10),
+        totalStudentsTrend: 4.2,                  // wire to time-series snapshot table later
+        averageScore      : parseFloat(stats.average_score  || 0),
+        averageScoreTrend : 1.8,
+        atRiskStudents    : parseInt(stats.at_risk_students, 10),
+        atRiskNew         : parseInt(stats.high_risk_count,  10),
+        avgAttendance     : parseFloat(stats.avg_attendance  || 0),
+        unscoredStudents  : parseInt(stats.unscored_students,10),
       },
     });
   } catch (err) {
@@ -29,7 +32,7 @@ exports.getStats = async (req, res, next) => {
 
 /**
  * GET /dashboard/class-distribution
- * Returns student counts grouped by major.
+ * Student counts per major from the materialized view.
  */
 exports.getClassDistribution = async (req, res, next) => {
   try {
@@ -48,6 +51,34 @@ exports.getClassDistribution = async (req, res, next) => {
     }));
 
     res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * GET /dashboard/risk-distribution
+ * Breakdown of low / medium / high / unscored students.
+ */
+exports.getRiskDistribution = async (req, res, next) => {
+  try {
+    const rows = await StudentModel.getRiskDistribution();
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * POST /dashboard/refresh-cache
+ * Manually trigger a materialized view refresh.
+ * Typically called after a large batch prediction or bulk import.
+ * Protected — admin only (enforced at route level).
+ */
+exports.refreshCache = async (req, res, next) => {
+  try {
+    await PredictionLogModel.refreshRiskCache();
+    res.json({ success: true, message: 'Student risk cache refreshed' });
   } catch (err) {
     next(err);
   }

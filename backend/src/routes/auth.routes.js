@@ -13,7 +13,7 @@ const router = Router();
 // ─── Strict rate limit for auth routes ────────────────────────────────────────
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max     : 10,
+  max     : process.env.NODE_ENV === 'production' ? 10 : 1000,
   message : { success: false, message: 'Too many auth attempts, please try again later.' },
 });
 
