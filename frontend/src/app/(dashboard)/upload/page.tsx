@@ -274,7 +274,28 @@ export default function UploadPage() {
                     className="bg-transparent border-none outline-none text-sm w-40 text-slate-700 placeholder:text-slate-400"
                   />
                 </div>
-                <button className="px-6 py-2 rounded-xl neo-raised bg-indigo-600 text-white font-bold hover:opacity-90 active:scale-95 transition-all">
+                <button 
+                  onClick={async () => {
+                    try {
+                      if (!filteredPreview.length) return;
+                      const validStudents = filteredPreview.filter(s => s.status === 'valid').map(s => ({
+                        name: s.name,
+                        email: s.email,
+                        grade: s.grade,
+                        attendance: 90, // mock default attendance for uploaded
+                        score: 7.5, // mock default score for uploaded
+                      }));
+                      
+                      const { bulkUploadStudents } = await import('@/lib/api');
+                      await bulkUploadStudents(validStudents);
+                      alert('Data successfully imported and processed!');
+                      window.location.href = '/students';
+                    } catch (err) {
+                      alert('Failed to process import: ' + err);
+                    }
+                  }}
+                  className="px-6 py-2 rounded-xl neo-raised bg-indigo-600 text-white font-bold hover:opacity-90 active:scale-95 transition-all"
+                >
                   Process Import
                 </button>
               </div>

@@ -380,3 +380,11 @@ export async function uploadFile(_file: File): Promise<{ jobId: string }> {
   await new Promise((r) => setTimeout(r, 1000));
   return { jobId: `job-${Date.now()}` };
 }
+
+export async function bulkUploadStudents(students: Partial<Student>[]): Promise<{ success: boolean; count: number }> {
+  const body = await apiFetch<{ success: boolean; count: number }>('/students/bulk', {
+    method: 'POST',
+    body: JSON.stringify({ students }),
+  });
+  return body;
+}

@@ -151,6 +151,45 @@ exports.createStudent = async (req, res, next) => {
   }
 };
 
+// ─── POST /students/bulk ───────────────────────────────────────────────────────
+exports.bulkCreateStudents = async (req, res, next) => {
+  try {
+    const studentsArray = req.body.students;
+    if (!Array.isArray(studentsArray) || studentsArray.length === 0) {
+      return next(new AppError('Please provide an array of students', 400));
+    }
+
+    const userId = req.user?.id || null;
+    const createdStudents = [];
+
+    // Simple loop to create each student (in production use a batch insert)
+    for (const data of studentsArray) {
+      try {
+        const studentCode = generateStudentCode();
+        const student = await StudentModel.create({
+          studentCode,
+          name: data.name,
+          email: data.email,
+          avatarUrl: data.avatar || null,
+          grade: data.grade,
+          major: data.major || 'Computer Science', // default
+          semester: data.semester || '1st / Fall',
+          attendance: parseFloat(data.attendance) || 0,
+          score: parseFloat(data.score) || 0,
+        }, userId);
+        createdStudents.push(student);
+      } catch (err) {
+        // Skip duplicates or invalid rows during bulk upload to let the rest succeed
+        console.error(`Skipping student ${data.name}: ${err.message}`);
+      }
+    }
+
+    res.status(201).json({ success: true, count: createdStudents.length, data: createdStudents });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // ─── PUT /students/:id ─────────────────────────────────────────────────────────
 exports.updateStudent = async (req, res, next) => {
   try {

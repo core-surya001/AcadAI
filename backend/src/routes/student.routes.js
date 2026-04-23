@@ -65,6 +65,11 @@ router.route('/')
   .post(createRules, validate, studentCtrl.createStudent);
 
 /**
+ * POST /api/v1/students/bulk     — bulk create students
+ */
+router.post('/bulk', studentCtrl.bulkCreateStudents);
+
+/**
  * GET    /api/v1/students/:id    — fetch one (by BIGINT id or student_code)
  * PUT    /api/v1/students/:id    — partial update
  * DELETE /api/v1/students/:id    — soft-delete (admin can hard-delete with ?hard=true)
