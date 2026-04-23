@@ -68,6 +68,18 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'AcadAI Backend' });
 });
 
+// ─── TEMPORARY DB PATCH ──────────────────────────────────────────────────────
+app.get('/api/v1/patch-db', async (req, res) => {
+  try {
+    const db = require('./db/index');
+    await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE;`);
+    await db.query(`CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id);`);
+    res.json({ success: true, message: 'Production database patched!' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // ─── API routes ───────────────────────────────────────────────────────────────
 const API = '/api/v1';
 app.use(`${API}/auth`,      authRoutes);
