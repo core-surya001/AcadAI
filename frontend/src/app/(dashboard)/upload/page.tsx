@@ -17,6 +17,9 @@ export default function UploadPage() {
   const [previewLoading, setPreviewLoading] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [search, setSearch] = useState('');
+  const [activeTab, setActiveTab] = useState<'upload' | 'connect'>('upload');
+  const [sheetUrl, setSheetUrl] = useState('');
+  const [connecting, setConnecting] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const filteredPreview = preview.filter(
@@ -82,62 +85,126 @@ export default function UploadPage() {
           <div className="p-8 rounded-xl neo-raised bg-[#e8eaf0]">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-slate-800">Data Import</h3>
-              <span className="px-3 py-1 bg-indigo-100 text-indigo-600 text-xs font-bold rounded-full">CSV / XLSX</span>
-            </div>
-
-            {/* Drop zone */}
-            <div
-              onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-              onDragLeave={() => setDragging(false)}
-              onDrop={(e) => { e.preventDefault(); setDragging(false); handleFiles(e.dataTransfer.files); }}
-              onClick={() => fileRef.current?.click()}
-              className={`neo-inset rounded-xl border-2 border-dashed p-12 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${dragging ? 'border-indigo-400 bg-indigo-50/30' : 'border-slate-300 hover:bg-[#e2e4ea]'}`}
-            >
-              <div className="w-20 h-20 rounded-full neo-raised bg-[#e8eaf0] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                <span className="material-symbols-outlined text-indigo-600 text-4xl">cloud_upload</span>
+              <div className="flex bg-[#e2e4ea] rounded-xl p-1 neo-inset">
+                <button
+                  onClick={() => setActiveTab('upload')}
+                  className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all ${activeTab === 'upload' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  File Upload
+                </button>
+                <button
+                  onClick={() => setActiveTab('connect')}
+                  className={`px-4 py-1.5 text-sm font-bold rounded-lg transition-all ${activeTab === 'connect' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  Live Connect
+                </button>
               </div>
-              <p className="text-lg font-semibold text-slate-700 mb-2">Drag & drop files here</p>
-              <p className="text-sm text-slate-500 mb-6">or click to browse your computer</p>
-              <button
-                type="button"
-                className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-bold neo-raised hover:opacity-90 active:scale-95 transition-all"
-                onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }}
-              >
-                Choose Files
-              </button>
-              <input ref={fileRef} type="file" accept=".csv,.xlsx" className="hidden" onChange={(e) => handleFiles(e.target.files)} />
             </div>
 
-            {/* Upload items */}
-            {uploads.length > 0 && (
-              <div className="mt-8 space-y-4">
-                {uploads.map((u) => (
-                  <div key={u.id} className="p-4 rounded-xl neo-raised bg-[#e8eaf0] flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-lg neo-inset flex items-center justify-center bg-[#e8eaf0]">
-                      <span className="material-symbols-outlined text-slate-500">description</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-end mb-2">
-                        <div>
-                          <p className="text-sm font-semibold text-slate-700">{u.name}</p>
-                          <p className="text-[10px] text-slate-500">{u.size} • {u.progress}% {u.status === 'uploading' ? 'uploaded' : u.status}</p>
-                        </div>
-                        <span className={`text-xs font-bold ${u.status === 'done' ? 'text-emerald-600' : u.status === 'error' ? 'text-red-500' : 'text-indigo-600'}`}>
-                          {u.status === 'done' ? '✓ Done' : u.status === 'error' ? '✗ Error' : 'Uploading…'}
-                        </span>
-                      </div>
-                      <div className="h-2 w-full neo-inset rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all duration-300 ${u.status === 'error' ? 'bg-red-500' : 'bg-indigo-500'}`}
-                          style={{ width: `${u.progress}%` }}
-                        />
-                      </div>
-                    </div>
-                    <button onClick={() => removeUpload(u.id)} className="w-8 h-8 rounded-full neo-raised flex items-center justify-center text-red-400 hover:neo-inset transition-all">
-                      <span className="material-symbols-outlined text-sm">close</span>
-                    </button>
+            {activeTab === 'upload' ? (
+              <>
+                {/* Drop zone */}
+                <div
+                  onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                  onDragLeave={() => setDragging(false)}
+                  onDrop={(e) => { e.preventDefault(); setDragging(false); handleFiles(e.dataTransfer.files); }}
+                  onClick={() => fileRef.current?.click()}
+                  className={`neo-inset rounded-xl border-2 border-dashed p-12 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${dragging ? 'border-indigo-400 bg-indigo-50/30' : 'border-slate-300 hover:bg-[#e2e4ea]'}`}
+                >
+                  <div className="w-20 h-20 rounded-full neo-raised bg-[#e8eaf0] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-indigo-600 text-4xl">cloud_upload</span>
                   </div>
-                ))}
+                  <p className="text-lg font-semibold text-slate-700 mb-2">Drag & drop files here</p>
+                  <p className="text-sm text-slate-500 mb-6">or click to browse your computer</p>
+                  <button
+                    type="button"
+                    className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-bold neo-raised hover:opacity-90 active:scale-95 transition-all"
+                    onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }}
+                  >
+                    Choose Files
+                  </button>
+                  <input ref={fileRef} type="file" accept=".csv,.xlsx" className="hidden" onChange={(e) => handleFiles(e.target.files)} />
+                </div>
+
+                {/* Upload items */}
+                {uploads.length > 0 && (
+                  <div className="mt-8 space-y-4">
+                    {uploads.map((u) => (
+                      <div key={u.id} className="p-4 rounded-xl neo-raised bg-[#e8eaf0] flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-lg neo-inset flex items-center justify-center bg-[#e8eaf0]">
+                          <span className="material-symbols-outlined text-slate-500">description</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex justify-between items-end mb-2">
+                            <div>
+                              <p className="text-sm font-semibold text-slate-700">{u.name}</p>
+                              <p className="text-[10px] text-slate-500">{u.size} • {u.progress}% {u.status === 'uploading' ? 'uploaded' : u.status}</p>
+                            </div>
+                            <span className={`text-xs font-bold ${u.status === 'done' ? 'text-emerald-600' : u.status === 'error' ? 'text-red-500' : 'text-indigo-600'}`}>
+                              {u.status === 'done' ? '✓ Done' : u.status === 'error' ? '✗ Error' : 'Uploading…'}
+                            </span>
+                          </div>
+                          <div className="h-2 w-full neo-inset rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-300 ${u.status === 'error' ? 'bg-red-500' : 'bg-indigo-500'}`}
+                              style={{ width: `${u.progress}%` }}
+                            />
+                          </div>
+                        </div>
+                        <button onClick={() => removeUpload(u.id)} className="w-8 h-8 rounded-full neo-raised flex items-center justify-center text-red-400 hover:neo-inset transition-all">
+                          <span className="material-symbols-outlined text-sm">close</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="py-6 animate-fade-in">
+                <div className="mb-8 flex flex-col items-center justify-center text-center">
+                  <div className="w-20 h-20 rounded-full neo-inset bg-[#e8eaf0] flex items-center justify-center mb-5">
+                    <span className="material-symbols-outlined text-emerald-600 text-4xl">link</span>
+                  </div>
+                  <p className="text-xl font-bold text-slate-800 mb-2">Connect Live Spreadsheet</p>
+                  <p className="text-sm text-slate-500 max-w-sm">
+                    Paste your Excel Online or Google Sheets URL below. Any changes made in your spreadsheet will automatically sync.
+                  </p>
+                </div>
+                
+                <div className="flex flex-col gap-4">
+                  <div className="neo-inset rounded-xl px-4 py-3 flex items-center gap-3 w-full">
+                    <span className="material-symbols-outlined text-slate-400">link</span>
+                    <input 
+                      type="url" 
+                      value={sheetUrl}
+                      onChange={(e) => setSheetUrl(e.target.value)}
+                      placeholder="https://docs.google.com/spreadsheets/d/..." 
+                      className="bg-transparent border-none outline-none w-full text-sm text-slate-700 placeholder:text-slate-400"
+                    />
+                  </div>
+                  <button 
+                    onClick={() => {
+                      if(!sheetUrl) return;
+                      setConnecting(true);
+                      setTimeout(() => {
+                        setConnecting(false);
+                        setPreviewLoading(true);
+                        getUploadPreview().then((rows) => { setPreview(rows); setPreviewLoading(false); });
+                      }, 1500);
+                    }}
+                    disabled={connecting || !sheetUrl}
+                    className="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold neo-raised hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center gap-2"
+                  >
+                    {connecting ? (
+                      <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        Connecting...
+                      </>
+                    ) : (
+                      'Establish Live Connection'
+                    )}
+                  </button>
+                </div>
               </div>
             )}
           </div>

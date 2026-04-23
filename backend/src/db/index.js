@@ -11,7 +11,7 @@ const poolConfig = process.env.DATABASE_URL
       max              : 20,          // was 5 — headroom for concurrent requests at 10K DAU
       min              : 2,           // keep 2 warm connections to avoid cold-start on every request
       idleTimeoutMillis: 10_000,      // close idle faster on serverless (was 30s)
-      connectionTimeoutMillis: 5_000, // fail fast; let retry logic handle it (was 10s)
+      connectionTimeoutMillis: 15_000, // increased to 15s to allow Neon serverless cold starts
       allowExitOnIdle  : true,        // critical for Neon serverless connection model
     }
   : {
@@ -23,7 +23,7 @@ const poolConfig = process.env.DATABASE_URL
       max     : 20,
       min     : 2,
       idleTimeoutMillis   : 30_000,
-      connectionTimeoutMillis: 5_000,
+      connectionTimeoutMillis: 15_000,
       allowExitOnIdle     : true,
     };
 
