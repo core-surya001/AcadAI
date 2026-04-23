@@ -34,6 +34,9 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, curl, healthchecks)
     if (!origin) return cb(null, true);
     if (allowedOrigins.includes(origin)) return cb(null, true);
+    // Allow any Vercel deployments automatically to avoid CORS headaches
+    if (origin.endsWith('.vercel.app')) return cb(null, true);
+    
     cb(new Error(`CORS: ${origin} not allowed`));
   },
   credentials: true,
