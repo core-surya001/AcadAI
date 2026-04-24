@@ -260,7 +260,7 @@ export default function UploadPage() {
               <div>
                 <h3 className="text-xl font-semibold text-slate-800">Data Preview</h3>
                 <p className="text-sm text-slate-500">
-                  Showing results from: <span className="font-bold text-indigo-600">{file ? file.name : 'No file uploaded'}</span>
+                  Showing results from: <span className="font-bold text-indigo-600">{uploads.length > 0 ? uploads[0].name : 'No file uploaded'}</span>
                 </p>
               </div>
               <div className="flex items-center gap-4">

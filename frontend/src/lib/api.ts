@@ -376,6 +376,7 @@ export async function getUploadPreview(): Promise<PreviewRow[]> {
   ];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function uploadFile(_file: File): Promise<{ jobId: string }> {
   await new Promise((r) => setTimeout(r, 1000));
   return { jobId: `job-${Date.now()}` };

@@ -19,9 +19,11 @@ export default function ReportPreviewPage() {
 
       if (r?.title === 'Scholarship Eligibility' || r?.title === 'Final Grades Summary') {
         try {
-          const res = await getStudents({ limit: 100 } as any);
+          const res = await getStudents({ limit: 100 } as Parameters<typeof getStudents>[0]);
           setStudents(res.students);
-        } catch(e) {}
+        } catch {
+          // ignore fetch error
+        }
       }
 
       setLoading(false);
@@ -120,7 +122,7 @@ export default function ReportPreviewPage() {
             <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
               <h3 className="text-xl font-bold text-indigo-900 mb-2">AI Diagnostic Summary</h3>
               <p className="text-indigo-800">
-                The AI models have processed recent assessment results and identified a 15% improvement in logical reasoning tasks across the Computer Science department. However, comprehension in complex problem-solving remains a challenge for students classified as 'medium' and 'high' risk.
+                The AI models have processed recent assessment results and identified a 15% improvement in logical reasoning tasks across the Computer Science department. However, comprehension in complex problem-solving remains a challenge for students classified as &apos;medium&apos; and &apos;high&apos; risk.
               </p>
             </div>
             
@@ -128,7 +130,7 @@ export default function ReportPreviewPage() {
             <ul className="list-disc pl-6 space-y-2 text-slate-700">
               <li><strong>Top Performers:</strong> Students utilizing the predictive feedback loops have shown a 1.2 point score increase on average.</li>
               <li><strong>Intervention Recommended:</strong> Early warnings trigger effectively for students exhibiting a drop in attendance below 70% alongside a 0.5 score reduction.</li>
-              <li><strong>Course Analysis:</strong> 'Physics' and 'Mathematics' currently have the highest variance in grades, suggesting a need for standardized curriculum updates.</li>
+              <li><strong>Course Analysis:</strong> &apos;Physics&apos; and &apos;Mathematics&apos; currently have the highest variance in grades, suggesting a need for standardized curriculum updates.</li>
             </ul>
           </div>
         )}

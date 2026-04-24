@@ -12,12 +12,8 @@ export default function Topbar({ searchPlaceholder = 'Search...', onSearch }: To
   const [query, setQuery] = useState('');
   const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+  const [user] = useState<{ name: string; role: string } | null>(() => getStoredUser());
   const profileRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setUser(getStoredUser());
-  }, []);
 
   // Close dropdowns on outside click
   useEffect(() => {
