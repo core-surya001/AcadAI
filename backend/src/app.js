@@ -74,7 +74,18 @@ app.get('/api/v1/patch-db', async (req, res) => {
     const db = require('./db/index');
     await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE;`);
     await db.query(`CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id);`);
-    res.json({ success: true, message: 'Production database patched!' });
+    
+    // Add the missing function for materialized view refresh
+    await db.query(`
+      CREATE OR REPLACE FUNCTION refresh_student_risk_summary()
+      RETURNS void AS $$
+      BEGIN
+        REFRESH MATERIALIZED VIEW CONCURRENTLY student_risk_summary;
+      END;
+      $$ LANGUAGE plpgsql;
+    `);
+
+    res.json({ success: true, message: 'Production database patched! Google ID and Refresh function added.' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
