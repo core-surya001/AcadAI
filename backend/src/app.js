@@ -68,27 +68,130 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), service: 'AcadAI Backend' });
 });
 
-// ─── TEMPORARY DB PATCH ──────────────────────────────────────────────────────
-app.get('/api/v1/patch-db', async (req, res) => {
-  try {
-    const db = require('./db/index');
-    await db.query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE;`);
-    await db.query(`CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id);`);
-    
-    // Add the missing function for materialized view refresh
-    await db.query(`
-      CREATE OR REPLACE FUNCTION refresh_student_risk_summary()
-      RETURNS void AS $$
-      BEGIN
-        REFRESH MATERIALIZED VIEW CONCURRENTLY student_risk_summary;
-      END;
-      $$ LANGUAGE plpgsql;
-    `);
+// ─── PRODUCTION DB SETUP (run once after deploy) ─────────────────────────────
+app.get('/api/v1/patch-db', async (_req, res) => {
+  const db = require('./db/index');
+  const steps = [];
+  const errors = [];
 
-    res.json({ success: true, message: 'Production database patched! Google ID and Refresh function added.' });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+  async function run(label, sql) {
+    try {
+      await db.query(sql);
+      steps.push(`✓ ${label}`);
+    } catch (e) {
+      errors.push(`✗ ${label}: ${e.message}`);
+    }
   }
+
+  // Extensions
+  await run('pgcrypto extension', `CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
+  await run('pg_trgm extension', `CREATE EXTENSION IF NOT EXISTS "pg_trgm"`);
+
+  // Users – google_id column
+  await run('users.google_id column', `ALTER TABLE users ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) UNIQUE`);
+  await run('users.google_id index', `CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id)`);
+
+  // Lookup tables
+  await run('majors table', `CREATE TABLE IF NOT EXISTS majors (id SMALLSERIAL PRIMARY KEY, name VARCHAR(80) NOT NULL UNIQUE, department VARCHAR(80), created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`);
+  await run('grades table', `CREATE TABLE IF NOT EXISTS grades (id SMALLSERIAL PRIMARY KEY, label VARCHAR(30) NOT NULL UNIQUE)`);
+  await run('semesters table', `CREATE TABLE IF NOT EXISTS semesters (id SMALLSERIAL PRIMARY KEY, label VARCHAR(30) NOT NULL UNIQUE)`);
+
+  // Students table
+  await run('students table', `
+    CREATE TABLE IF NOT EXISTS students (
+      id           BIGSERIAL    PRIMARY KEY,
+      student_code VARCHAR(20)  NOT NULL UNIQUE,
+      name         VARCHAR(120) NOT NULL,
+      email        VARCHAR(255) NOT NULL UNIQUE,
+      avatar_url   VARCHAR(500),
+      grade_id     SMALLINT     NOT NULL REFERENCES grades(id) ON UPDATE CASCADE,
+      major_id     SMALLINT     NOT NULL REFERENCES majors(id) ON UPDATE CASCADE,
+      semester_id  SMALLINT     NOT NULL REFERENCES semesters(id) ON UPDATE CASCADE,
+      attendance   NUMERIC(5,2) NOT NULL DEFAULT 0 CHECK (attendance BETWEEN 0 AND 100),
+      score        NUMERIC(4,2) NOT NULL DEFAULT 0 CHECK (score BETWEEN 0 AND 10),
+      is_active    BOOLEAN      NOT NULL DEFAULT TRUE,
+      created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+      updated_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  // Prediction logs (simple non-partitioned fallback for production)
+  await run('prediction_logs table', `
+    CREATE TABLE IF NOT EXISTS prediction_logs (
+      id            BIGSERIAL    PRIMARY KEY,
+      student_id    BIGINT       NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      requested_by  UUID         REFERENCES users(id) ON DELETE SET NULL,
+      input_data    JSONB        NOT NULL,
+      prediction    NUMERIC(5,2) NOT NULL,
+      risk_level    VARCHAR(10)  NOT NULL,
+      model_version VARCHAR(30)  NOT NULL DEFAULT 'local-v1.0',
+      confidence    NUMERIC(4,3),
+      created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+    )
+  `);
+
+  // updated_at trigger function
+  await run('update_updated_at_column function', `
+    CREATE OR REPLACE FUNCTION update_updated_at_column()
+    RETURNS TRIGGER AS $$
+    BEGIN NEW.updated_at = NOW(); RETURN NEW; END;
+    $$ LANGUAGE plpgsql
+  `);
+  await run('students updated_at trigger', `
+    DO $$ BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'set_students_updated_at') THEN
+        CREATE TRIGGER set_students_updated_at BEFORE UPDATE ON students FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+      END IF;
+    END $$
+  `);
+
+  // Materialized view
+  await run('student_risk_summary materialized view', `
+    CREATE MATERIALIZED VIEW IF NOT EXISTS student_risk_summary AS
+    SELECT
+      s.id AS student_id, s.student_code, s.name, s.email,
+      s.attendance, s.score, s.is_active, s.avatar_url, s.created_at, s.updated_at,
+      g.label   AS grade,
+      m.name    AS major,
+      sem.label AS semester,
+      pl.prediction AS ai_prediction, pl.risk_level, pl.model_version, pl.confidence,
+      pl.created_at AS predicted_at, pl.requested_by AS predicted_by
+    FROM students s
+    JOIN grades    g   ON g.id   = s.grade_id
+    JOIN majors    m   ON m.id   = s.major_id
+    JOIN semesters sem ON sem.id = s.semester_id
+    LEFT JOIN LATERAL (
+      SELECT prediction, risk_level, model_version, confidence, created_at, requested_by
+      FROM prediction_logs WHERE student_id = s.id ORDER BY created_at DESC LIMIT 1
+    ) pl ON TRUE
+    WITH DATA
+  `);
+
+  await run('student_risk_summary unique index', `CREATE UNIQUE INDEX IF NOT EXISTS idx_srs_student_id ON student_risk_summary(student_id)`);
+  await run('student_risk_summary name trgm index', `CREATE INDEX IF NOT EXISTS idx_srs_name_trgm ON student_risk_summary USING GIN(name gin_trgm_ops)`);
+
+  // Refresh function
+  await run('refresh_student_risk_summary function', `
+    CREATE OR REPLACE FUNCTION refresh_student_risk_summary()
+    RETURNS void AS $$
+    BEGIN REFRESH MATERIALIZED VIEW CONCURRENTLY student_risk_summary; END;
+    $$ LANGUAGE plpgsql
+  `);
+
+  // Dashboard stats view
+  await run('dashboard_stats view', `
+    CREATE OR REPLACE VIEW dashboard_stats AS
+    SELECT
+      COUNT(*)                                                           AS total_students,
+      ROUND(AVG(score) * 10, 1)                                         AS average_score,
+      COUNT(*) FILTER (WHERE risk_level IN ('medium','high'))           AS at_risk_students,
+      COUNT(*) FILTER (WHERE risk_level = 'high')                       AS high_risk_count,
+      ROUND(AVG(attendance), 1)                                         AS avg_attendance,
+      COUNT(*) FILTER (WHERE risk_level IS NULL)                        AS unscored_students
+    FROM student_risk_summary WHERE is_active = TRUE
+  `);
+
+  res.json({ success: errors.length === 0, steps, errors });
 });
 
 // ─── API routes ───────────────────────────────────────────────────────────────
