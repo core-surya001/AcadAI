@@ -183,9 +183,23 @@ exports.bulkCreateStudents = async (req, res, next) => {
         console.error(`Skipping student ${data.name}: ${err.message}`);
       }
     }
-    // Refresh the materialized view so the newly inserted students show up in the dashboard
-    const PredictionLogModel = require('../models/prediction.model');
-    await PredictionLogModel.refreshRiskCache();
+
+    // Refresh the materialized view (best-effort — skip if function not yet created in DB)
+    try {
+      const db = require('../db');
+      // Auto-create the function if it doesn't exist yet (handles first-deploy scenario)
+      await db.query(`
+        CREATE OR REPLACE FUNCTION refresh_student_risk_summary()
+        RETURNS void AS $$
+        BEGIN
+          REFRESH MATERIALIZED VIEW CONCURRENTLY student_risk_summary;
+        END;
+        $$ LANGUAGE plpgsql;
+      `);
+      await db.query('SELECT refresh_student_risk_summary()');
+    } catch (refreshErr) {
+      console.warn('Materialized view refresh skipped:', refreshErr.message);
+    }
 
     res.status(201).json({ success: true, count: createdStudents.length, data: createdStudents });
   } catch (err) {
