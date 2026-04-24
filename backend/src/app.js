@@ -145,6 +145,43 @@ app.get('/api/v1/patch-db', async (_req, res) => {
     END $$
   `);
 
+  // ── Seed default lookup rows (needed to backfill existing rows) ──────────────
+  await run('seed default grade N/A',    `INSERT INTO grades    (label) VALUES ('N/A')        ON CONFLICT (label) DO NOTHING`);
+  await run('seed default major General',`INSERT INTO majors    (name)  VALUES ('General')    ON CONFLICT (name)  DO NOTHING`);
+  await run('seed default semester Fall', `INSERT INTO semesters (label) VALUES ('1st / Fall') ON CONFLICT (label) DO NOTHING`);
+
+  // ── Add FK columns to students if they are missing (handles v1 schema) ───────
+  await run('students.grade_id column',
+    `ALTER TABLE students ADD COLUMN IF NOT EXISTS grade_id SMALLINT REFERENCES grades(id) ON UPDATE CASCADE`);
+  await run('students.major_id column',
+    `ALTER TABLE students ADD COLUMN IF NOT EXISTS major_id SMALLINT REFERENCES majors(id) ON UPDATE CASCADE`);
+  await run('students.semester_id column',
+    `ALTER TABLE students ADD COLUMN IF NOT EXISTS semester_id SMALLINT REFERENCES semesters(id) ON UPDATE CASCADE`);
+
+  // ── Backfill any rows that have NULL FK values ────────────────────────────────
+  await run('backfill grade_id for existing rows', `
+    UPDATE students
+       SET grade_id = (SELECT id FROM grades WHERE label = 'N/A' LIMIT 1)
+     WHERE grade_id IS NULL
+  `);
+  await run('backfill major_id for existing rows', `
+    UPDATE students
+       SET major_id = (SELECT id FROM majors WHERE name = 'General' LIMIT 1)
+     WHERE major_id IS NULL
+  `);
+  await run('backfill semester_id for existing rows', `
+    UPDATE students
+       SET semester_id = (SELECT id FROM semesters WHERE label = '1st / Fall' LIMIT 1)
+     WHERE semester_id IS NULL
+  `);
+
+  // ── student_code column (v1 may not have it) ──────────────────────────────────
+  await run('students.student_code column',
+    `ALTER TABLE students ADD COLUMN IF NOT EXISTS student_code VARCHAR(20) UNIQUE`);
+  await run('backfill student_code', `
+    UPDATE students SET student_code = 'STU-' || id::text WHERE student_code IS NULL
+  `);
+
   // Materialized view
   await run('student_risk_summary materialized view', `
     CREATE MATERIALIZED VIEW IF NOT EXISTS student_risk_summary AS
