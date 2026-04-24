@@ -260,7 +260,7 @@ export default function UploadPage() {
               <div>
                 <h3 className="text-xl font-semibold text-slate-800">Data Preview</h3>
                 <p className="text-sm text-slate-500">
-                  Showing results from: <span className="font-bold text-indigo-600">fall_semester_2024.csv</span>
+                  Showing results from: <span className="font-bold text-indigo-600">{file ? file.name : 'No file uploaded'}</span>
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -280,7 +280,7 @@ export default function UploadPage() {
                       if (!filteredPreview.length) return;
                       const validStudents = filteredPreview.filter(s => s.status === 'valid').map(s => ({
                         name: s.name,
-                        email: s.email,
+                        email: `${Math.floor(Math.random() * 10000)}_` + s.email,
                         grade: s.grade,
                         attendance: 90, // mock default attendance for uploaded
                         score: 7.5, // mock default score for uploaded

@@ -183,6 +183,9 @@ exports.bulkCreateStudents = async (req, res, next) => {
         console.error(`Skipping student ${data.name}: ${err.message}`);
       }
     }
+    // Refresh the materialized view so the newly inserted students show up in the dashboard
+    const PredictionLogModel = require('../models/prediction.model');
+    await PredictionLogModel.refreshRiskCache();
 
     res.status(201).json({ success: true, count: createdStudents.length, data: createdStudents });
   } catch (err) {
