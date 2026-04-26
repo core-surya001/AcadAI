@@ -39,6 +39,25 @@ async function startServer() {
     app.listen(PORT, '0.0.0.0', () => {
       logger.info(`🚀  AcadAI backend running on port ${PORT}`);
       logger.info(`    Environment : ${process.env.NODE_ENV}`);
+      
+      // Auto-run DB patch on startup (to ensure Render production schema is initialized)
+      setTimeout(() => {
+        logger.info('🔄  Auto-running DB setup script...');
+        import('node-fetch').then(({ default: fetch }) => {
+           fetch(`http://127.0.0.1:${PORT}/api/v1/patch-db`)
+             .then(r => r.json())
+             .then(data => logger.info(`✅  DB setup result: ${JSON.stringify(data)}`))
+             .catch(err => logger.error(`❌  DB setup failed: ${err.message}`));
+        }).catch(err => {
+           // Fallback if node-fetch is not installed (Node 18+ has native fetch)
+           if (typeof fetch === 'function') {
+             fetch(`http://127.0.0.1:${PORT}/api/v1/patch-db`)
+               .then(r => r.json())
+               .then(data => logger.info(`✅  DB setup result: ${JSON.stringify(data)}`))
+               .catch(err => logger.error(`❌  DB setup failed: ${err.message}`));
+           }
+        });
+      }, 2000);
     });
   } catch (err) {
     logger.error(`❌  Failed to connect to PostgreSQL: ${err.message} (code: ${err.code || 'N/A'})`);
