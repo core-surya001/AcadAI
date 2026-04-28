@@ -47,13 +47,25 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Storage */}
-      <div className="mt-auto p-4 neo-raised rounded-2xl bg-[#e8eaf0]">
-        <p className="text-xs text-slate-500 mb-2 font-medium">Storage Usage</p>
-        <div className="h-2 w-full neo-inset rounded-full overflow-hidden">
-          <div className="h-full bg-indigo-500 rounded-full" style={{ width: '75%' }} />
-        </div>
-        <p className="text-[10px] text-right mt-1 text-slate-400">75% of 10 GB</p>
+      {/* Theme Toggle */}
+      <div className="mt-auto p-4 flex items-center justify-between">
+        <span className="text-sm font-medium text-slate-500">Theme</span>
+        <button 
+          onClick={() => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            // Trigger a re-render for the icon (optional, simple approach for now)
+            window.dispatchEvent(new Event('themeChange'));
+          }}
+          className="w-14 h-8 neo-inset rounded-full flex items-center p-1 cursor-pointer transition-all relative"
+        >
+          {/* We'll use a simple CSS toggle instead of state to keep it simple, but a real implementation would use a theme provider */}
+          <div className="w-6 h-6 bg-[#e8eaf0] neo-raised rounded-full flex items-center justify-center transition-transform transform translate-x-0 dark:translate-x-6">
+            <span className="material-symbols-outlined text-[14px] text-indigo-500 block dark:hidden">light_mode</span>
+            <span className="material-symbols-outlined text-[14px] text-indigo-500 hidden dark:block">dark_mode</span>
+          </div>
+        </button>
       </div>
     </aside>
   );
