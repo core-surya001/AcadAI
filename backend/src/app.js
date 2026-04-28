@@ -234,6 +234,73 @@ app.get('/api/v1/patch-db', async (_req, res) => {
   res.json({ success: errors.length === 0, steps, errors });
 });
 
+// ─── DEMO SEED DATA (run to populate dashboard) ──────────────────────────────
+app.get('/api/v1/seed-data', async (_req, res) => {
+  try {
+    const logger = require('./utils/logger');
+    const db = require('./db/index');
+    const bcrypt = require('bcryptjs');
+
+    logger.info('▶  Manual demo seed triggered...');
+
+    // 1. Majors, Grades, Semesters
+    const majors = ['Computer Science', 'Mathematics', 'Physics', 'Philosophy', 'Literature'];
+    for (const m of majors) {
+      await db.query(`INSERT INTO majors (name) VALUES ($1) ON CONFLICT (name) DO NOTHING`, [m]);
+    }
+    const grades = ['Grade 10-A', 'Grade 10-B', 'Grade 11-A', 'Grade 11-B', 'Grade 12-A'];
+    for (const g of grades) {
+      await db.query(`INSERT INTO grades (label) VALUES ($1) ON CONFLICT (label) DO NOTHING`, [g]);
+    }
+    const semesters = ['1st / Fall', '2nd / Spring'];
+    for (const s of semesters) {
+      await db.query(`INSERT INTO semesters (label) VALUES ($1) ON CONFLICT (label) DO NOTHING`, [s]);
+    }
+
+    // 2. Admin
+    const hash = await bcrypt.hash('Admin@1234', 12);
+    const adminRes = await db.query(
+      `INSERT INTO users (name, email, password, role) VALUES ($1,$2,$3,$4) ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name RETURNING id`,
+      ['Demo Admin', 'admin@acadai.edu', hash, 'admin']
+    );
+    const adminId = adminRes.rows[0].id;
+
+    // 3. Dummy Students (only if empty)
+    const check = await db.query('SELECT id FROM students LIMIT 1');
+    if (check.rows.length === 0) {
+      const demoStudents = [
+        { name: 'Elena Rodriguez', email: 'e.rod@academy.edu', grade: 'Grade 11-A', major: 'Computer Science', attendance: 94, score: 8.2, risk: 'low', prediction: 91 },
+        { name: 'Marcus Thorne', email: 'm.thorne@academy.edu', grade: 'Grade 11-B', major: 'Mathematics', attendance: 62, score: 4.5, risk: 'high', prediction: 42 },
+        { name: 'Li Wei', email: 'l.wei@academy.edu', grade: 'Grade 11-A', major: 'Physics', attendance: 88, score: 7.8, risk: 'medium', prediction: 76 },
+        { name: 'Sarah Jenkins', email: 's.jenkins@academy.edu', grade: 'Grade 10-C', major: 'Computer Science', attendance: 99, score: 9.5, risk: 'low', prediction: 97 }
+      ];
+
+      for (const s of demoStudents) {
+        const studentRes = await db.query(
+          `INSERT INTO students (student_code, name, email, grade_id, major_id, semester_id, attendance, score) 
+           VALUES ($1, $2, $3, (SELECT id FROM grades WHERE label=$4), (SELECT id FROM majors WHERE name=$5), (SELECT id FROM semesters LIMIT 1), $6, $7)
+           RETURNING id`,
+          [`STU-${Math.floor(10000+Math.random()*90000)}`, s.name, s.email, s.grade, s.major, s.attendance, s.score]
+        );
+        const sid = studentRes.rows[0].id;
+        
+        await db.query(
+          `INSERT INTO prediction_logs (student_id, requested_by, input_data, prediction, risk_level, model_version, confidence)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [sid, adminId, '{}', s.prediction, s.risk, 'demo-v1', 0.85]
+        );
+      }
+    }
+
+    // 4. Refresh view
+    await db.query('SELECT refresh_student_risk_summary()');
+
+    res.json({ success: true, message: 'Demo data seeded! Dashboard is now live.' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // ─── API routes ───────────────────────────────────────────────────────────────
 const API = '/api/v1';
 app.use(`${API}/auth`,      authRoutes);
