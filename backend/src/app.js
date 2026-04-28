@@ -115,7 +115,6 @@ app.get('/api/v1/patch-db', async (_req, res) => {
     )
   `);
 
-  // Prediction logs (simple non-partitioned fallback for production)
   await run('prediction_logs table', `
     CREATE TABLE IF NOT EXISTS prediction_logs (
       id            BIGSERIAL    PRIMARY KEY,
@@ -129,6 +128,10 @@ app.get('/api/v1/patch-db', async (_req, res) => {
       created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
     )
   `);
+
+  await run('prediction_logs.confidence column',
+    `ALTER TABLE prediction_logs ADD COLUMN IF NOT EXISTS confidence NUMERIC(4,3)`);
+
 
   // updated_at trigger function
   await run('update_updated_at_column function', `
