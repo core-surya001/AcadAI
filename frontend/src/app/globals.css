@@ -41,6 +41,22 @@
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────────── */
+:root {
+  --neo-shadow-light: rgba(255, 255, 255, 0.6);
+  --neo-shadow-dark: rgba(0, 0, 0, 0.08);
+  --bg-color: #e8eaf0;
+}
+
+.dark {
+  --color-background: #1a1b26;
+  --color-surface: #24283b;
+  --color-on-surface: #c0caf5;
+  --color-on-surface-var: #a9b1d6;
+  --neo-shadow-light: rgba(255, 255, 255, 0.03);
+  --neo-shadow-dark: rgba(0, 0, 0, 0.4);
+  --bg-color: #1a1b26;
+}
+
 @layer base {
   html, body {
     background-color: var(--color-background);
@@ -53,21 +69,35 @@
 @layer components {
   .neo-raised {
     box-shadow:
-      6px  6px 12px rgba(0, 0, 0, 0.08),
-     -6px -6px 12px rgba(255, 255, 255, 0.6);
+      6px  6px 12px var(--neo-shadow-dark),
+     -6px -6px 12px var(--neo-shadow-light);
   }
 
   .neo-inset {
     box-shadow:
-      inset  4px  4px 8px rgba(0, 0, 0, 0.06),
-      inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+      inset  4px  4px 8px var(--neo-shadow-dark),
+      inset -4px -4px 8px var(--neo-shadow-light);
   }
 
   .neo-raised-sm {
     box-shadow:
-      3px  3px 6px rgba(0, 0, 0, 0.07),
-     -3px -3px 6px rgba(255, 255, 255, 0.55);
+      3px  3px 6px var(--neo-shadow-dark),
+     -3px -3px 6px var(--neo-shadow-light);
   }
+
+  /* Dark mode overrides for hardcoded Tailwind classes */
+  .dark .bg-\[\#e8eaf0\] { background-color: var(--bg-color) !important; }
+  .dark .text-slate-800 { color: #f8fafc !important; }
+  .dark .text-slate-700 { color: #f1f5f9 !important; }
+  .dark .text-slate-600 { color: #e2e8f0 !important; }
+  .dark .text-slate-500 { color: #cbd5e1 !important; }
+  .dark .text-slate-400 { color: #94a3b8 !important; }
+  .dark .bg-slate-200 { background-color: #334155 !important; }
+  .dark .bg-white { background-color: #24283b !important; color: #f8fafc !important; }
+  .dark .border-slate-200 { border-color: #334155 !important; }
+  .dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) { border-color: #334155 !important; }
+  .dark .bg-\[\#e2e4ea\] { background-color: #24283b !important; }
+  .dark .hover\:bg-\[\#e2e4ea\]:hover { background-color: #24283b !important; }
 }
 
 /* ─── Material Symbols ───────────────────────────────────────────────────────── */
