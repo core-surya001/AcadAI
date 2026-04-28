@@ -234,7 +234,7 @@ exports.updateStudent = async (req, res, next) => {
 };
 
 // ─── DELETE /students/:id ──────────────────────────────────────────────────────
-const PredictionLogModel = require('../models/prediction.model');
+
 
 exports.deleteStudent = async (req, res, next) => {
   try {
