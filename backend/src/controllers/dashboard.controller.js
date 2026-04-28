@@ -10,19 +10,19 @@ const PredictionLogModel  = require('../models/prediction.model');
  */
 exports.getStats = async (req, res, next) => {
   try {
-    const stats = await StudentModel.getStats();
+    const stats = await StudentModel.getStats() || {};
 
     res.json({
       success: true,
       data: {
-        totalStudents     : parseInt(stats.total_students,    10),
+        totalStudents     : parseInt(stats.total_students     || 0, 10),
         totalStudentsTrend: 4.2,                  // wire to time-series snapshot table later
-        averageScore      : parseFloat(stats.average_score  || 0),
+        averageScore      : parseFloat(stats.average_score    || 0),
         averageScoreTrend : 1.8,
-        atRiskStudents    : parseInt(stats.at_risk_students, 10),
-        atRiskNew         : parseInt(stats.high_risk_count,  10),
+        atRiskStudents    : parseInt(stats.at_risk_students  || 0, 10),
+        atRiskNew         : parseInt(stats.high_risk_count   || 0, 10),
         avgAttendance     : parseFloat(stats.avg_attendance  || 0),
-        unscoredStudents  : parseInt(stats.unscored_students,10),
+        unscoredStudents  : parseInt(stats.unscored_students || 0, 10),
       },
     });
   } catch (err) {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { getUploadPreview, uploadFile, type PreviewRow } from '@/lib/api';
+import { getUploadPreview, type PreviewRow } from '@/lib/api';
 
 interface UploadItem {
   id: string;
@@ -33,24 +33,63 @@ export default function UploadPage() {
     const item: UploadItem = { id, name: file.name, size: formatSize(file.size), progress: 0, status: 'uploading' };
     setUploads((u) => [item, ...u]);
 
-    // Simulate progress
-    let p = 0;
-    const interval = setInterval(() => {
-      p = Math.min(p + Math.random() * 15, 100);
-      setUploads((u) => u.map((u2) => u2.id === id ? { ...u2, progress: Math.round(p) } : u2));
-      if (p >= 100) {
-        clearInterval(interval);
-        setUploads((u) => u.map((u2) => u2.id === id ? { ...u2, status: 'done', progress: 100 } : u2));
-        // Load preview
-        setPreviewLoading(true);
-        getUploadPreview().then((rows) => { setPreview(rows); setPreviewLoading(false); });
-      }
-    }, 400);
+    // Read and parse CSV file
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      const rows = text.split('\n').filter(r => r.trim());
+      // Skip header row
+      const dataRows = rows.slice(1);
+      
+      const parsedPreview: PreviewRow[] = dataRows.map((row, idx) => {
+        const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+        // Expected: Student ID, Full Name, Current Grade, Email Address, Attendance %, Score
+        const [studentId, name, grade, email, attendanceStr, scoreStr] = cols;
+        
+        let status: 'valid' | 'invalid' = 'valid';
+        let error: string | undefined;
+        
+        if (!name || !email) {
+          status = 'invalid';
+          error = 'MISSING DATA';
+        } else if (!email.includes('@')) {
+          status = 'invalid';
+          error = 'INVALID EMAIL';
+        }
+        
+        return {
+          id: studentId || `#STU-NEW-${idx}`,
+          name: name || 'Unknown',
+          email: email || '',
+          grade: grade || 'N/A',
+          status,
+          error,
+          // Storing extra fields temporarily as properties on the row object
+          _attendance: parseFloat(attendanceStr) || 0,
+          _score: parseFloat(scoreStr) || 0,
+        };
+      });
 
-    uploadFile(file).catch(() => {
-      clearInterval(interval);
+      // Simulate progress
+      let p = 0;
+      const interval = setInterval(() => {
+        p = Math.min(p + Math.random() * 25, 100);
+        setUploads((u) => u.map((u2) => u2.id === id ? { ...u2, progress: Math.round(p) } : u2));
+        if (p >= 100) {
+          clearInterval(interval);
+          setUploads((u) => u.map((u2) => u2.id === id ? { ...u2, status: 'done', progress: 100 } : u2));
+          setPreview(parsedPreview);
+          setPreviewLoading(false);
+        }
+      }, 200);
+    };
+    
+    reader.onerror = () => {
       setUploads((u) => u.map((u2) => u2.id === id ? { ...u2, status: 'error' } : u2));
-    });
+    };
+
+    setPreviewLoading(true);
+    reader.readAsText(file);
   };
 
   const formatSize = (bytes: number) => {
@@ -61,10 +100,25 @@ export default function UploadPage() {
 
   const removeUpload = (id: string) => setUploads((u) => u.filter((u2) => u2.id !== id));
 
-  // Auto-load preview on mount for demo
+  const downloadTemplate = () => {
+    const csvContent = "Student ID,Full Name,Current Grade,Email Address,Attendance %,Score\n" +
+      "1001,John Doe,10th Grade,john.doe@example.com,95,8.5\n" +
+      "1002,Jane Smith,11th Grade,jane.smith@example.com,88,7.2\n" +
+      "1003,Bob Johnson,12th Grade,bob.johnson,70,5.5\n"; // intentional error for test
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'students_template.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Skip auto-loading preview since it should come from the file
   useEffect(() => {
-    setPreviewLoading(true);
-    getUploadPreview().then((rows) => { setPreview(rows); setPreviewLoading(false); });
+    // Only show an initial state, no need to auto-load mock data
   }, []);
 
   return (
@@ -233,7 +287,7 @@ export default function UploadPage() {
                 </li>
               ))}
             </ul>
-            <button className="w-full mt-6 py-3 rounded-xl neo-inset text-slate-500 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#e2e4ea] transition-colors">
+            <button onClick={downloadTemplate} className="w-full mt-6 py-3 rounded-xl neo-inset text-slate-500 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#e2e4ea] transition-colors">
               <span className="material-symbols-outlined text-sm">download</span>Download Template
             </button>
           </div>
@@ -278,12 +332,12 @@ export default function UploadPage() {
                   onClick={async () => {
                     try {
                       if (!filteredPreview.length) return;
-                      const validStudents = filteredPreview.filter(s => s.status === 'valid').map(s => ({
+                      const validStudents = filteredPreview.filter(s => s.status === 'valid').map((s) => ({
                         name: s.name,
-                        email: `${Math.floor(Math.random() * 10000)}_` + s.email,
+                        email: s.email,
                         grade: s.grade,
-                        attendance: 90, // mock default attendance for uploaded
-                        score: 7.5, // mock default score for uploaded
+                        attendance: (s as PreviewRow & { _attendance?: number })._attendance ?? 90,
+                        score: (s as PreviewRow & { _score?: number })._score ?? 7.5,
                       }));
                       
                       const { bulkUploadStudents } = await import('@/lib/api');

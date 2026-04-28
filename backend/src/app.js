@@ -194,9 +194,9 @@ app.get('/api/v1/patch-db', async (_req, res) => {
       pl.prediction AS ai_prediction, pl.risk_level, pl.model_version, pl.confidence,
       pl.created_at AS predicted_at, pl.requested_by AS predicted_by
     FROM students s
-    JOIN grades    g   ON g.id   = s.grade_id
-    JOIN majors    m   ON m.id   = s.major_id
-    JOIN semesters sem ON sem.id = s.semester_id
+    LEFT JOIN grades    g   ON g.id   = s.grade_id
+    LEFT JOIN majors    m   ON m.id   = s.major_id
+    LEFT JOIN semesters sem ON sem.id = s.semester_id
     LEFT JOIN LATERAL (
       SELECT prediction, risk_level, model_version, confidence, created_at, requested_by
       FROM prediction_logs WHERE student_id = s.id ORDER BY created_at DESC LIMIT 1

@@ -354,11 +354,25 @@ export async function deleteStudent(id: string): Promise<void> {
 // ─── Reports (📌 mock — no backend endpoint) ──────────────────────────────────
 
 export async function getReports(): Promise<Report[]> {
+  // Fetch real stats to make the reports dynamically reflect the uploaded data
+  let stats;
+  try {
+    stats = await getDashboardStats();
+  } catch {
+    // Fallback if backend is unavailable
+    stats = {
+      totalStudents: 0,
+      averageScore: 0,
+      atRiskStudents: 0,
+      avgAttendance: 0
+    };
+  }
+
   return [
-    { id: 'r1', title: 'Final Grades Summary',    description: 'Comprehensive breakdown of student performance across all core engineering modules for Q1.',  status: 'completed',  icon: 'bar_chart',    iconColor: 'text-indigo-600', lastUpdated: '2h ago' },
-    { id: 'r2', title: 'Attendance Trends',        description: 'Visualizing student engagement and physical attendance patterns vs hybrid learning metrics.', status: 'processing', icon: 'query_stats',  iconColor: 'text-purple-600', progress: 67 },
+    { id: 'r1', title: 'Final Grades Summary',    description: `Comprehensive breakdown of student performance for ${stats.totalStudents} students with an average score of ${stats.averageScore}.`,  status: 'completed',  icon: 'bar_chart',    iconColor: 'text-indigo-600', lastUpdated: 'Just now' },
+    { id: 'r2', title: 'Attendance Trends',        description: `Visualizing student engagement. The current average attendance is ${stats.avgAttendance}%.`, status: 'processing', icon: 'query_stats',  iconColor: 'text-purple-600', progress: 67 },
     { id: 'r3', title: 'AI Assignment Insights',   description: 'Evaluation of AI-driven assessment tools and their impact on student learning curves.',       status: 'completed',  icon: 'history_edu',  iconColor: 'text-amber-500',  tag: 'Top Performer: CS 101', lastUpdated: '1d ago' },
-    { id: 'r4', title: 'Risk Assessment 2023',     description: 'Historical report identifying students at risk of dropping out based on early warning signs.', status: 'archived',   icon: 'warning',      iconColor: 'text-rose-500',   archiveId: '#ARC-2023-04' },
+    { id: 'r4', title: 'Risk Assessment',          description: `Current report identifying ${stats.atRiskStudents} students at risk of dropping out based on early warning signs.`, status: 'completed',   icon: 'warning',      iconColor: 'text-rose-500',   lastUpdated: 'Just now' },
     { id: 'r5', title: 'Scholarship Eligibility',  description: 'Drafting criteria for merit-based scholarships for the upcoming academic year.',              status: 'draft',      icon: 'edit_note',    iconColor: 'text-slate-400',  sections: 3 },
   ];
 }

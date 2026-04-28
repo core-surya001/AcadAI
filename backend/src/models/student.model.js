@@ -163,9 +163,9 @@ const StudentModel = {
          pl.created_at   AS predicted_at,
          pl.requested_by AS predicted_by
        FROM students s
-       JOIN grades    g   ON g.id   = s.grade_id
-       JOIN majors    m   ON m.id   = s.major_id
-       JOIN semesters sem ON sem.id = s.semester_id
+       LEFT JOIN grades    g   ON g.id   = s.grade_id
+       LEFT JOIN majors    m   ON m.id   = s.major_id
+       LEFT JOIN semesters sem ON sem.id = s.semester_id
        LEFT JOIN LATERAL (
          SELECT prediction, risk_level, model_version, confidence, created_at, requested_by
          FROM prediction_logs
@@ -313,7 +313,14 @@ const StudentModel = {
   // ─── STATS (from materialized view — zero table scan cost) ─────────────────
   async getStats() {
     const { rows } = await db.query(`SELECT * FROM dashboard_stats`);
-    return rows[0];
+    return rows[0] || {
+      total_students: 0,
+      average_score: 0,
+      at_risk_students: 0,
+      high_risk_count: 0,
+      avg_attendance: 0,
+      unscored_students: 0
+    };
   },
 
   // ─── CLASS DISTRIBUTION (from materialized view) ────────────────────────────

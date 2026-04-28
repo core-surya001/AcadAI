@@ -1,8 +1,9 @@
 'use strict';
 
-const StudentModel  = require('../models/student.model');
-const LookupModel   = require('../models/lookup.model');
-const { AppError }  = require('../utils/appError');
+const StudentModel       = require('../models/student.model');
+const LookupModel        = require('../models/lookup.model');
+const PredictionLogModel = require('../models/prediction.model');
+const { AppError }       = require('../utils/appError');
 
 /**
  * Derive a risk level from score and attendance.
@@ -143,6 +144,9 @@ exports.createStudent = async (req, res, next) => {
     }, userId);
 
     res.status(201).json({ success: true, data: student });
+
+    // Refresh cache in background
+    PredictionLogModel.refreshRiskCache().catch(err => console.warn('Cache refresh failed:', err.message));
   } catch (err) {
     if (err.code === '23505') {
       return next(new AppError('A student with this email already exists', 409));
@@ -184,23 +188,13 @@ exports.bulkCreateStudents = async (req, res, next) => {
       }
     }
 
-    // Refresh the materialized view (best-effort — skip if function not yet created in DB)
+    // Refresh the materialized view so the dashboard/list shows new data
     try {
-      const db = require('../db');
-      // Auto-create the function if it doesn't exist yet (handles first-deploy scenario)
-      await db.query(`
-        CREATE OR REPLACE FUNCTION refresh_student_risk_summary()
-        RETURNS void AS $$
-        BEGIN
-          REFRESH MATERIALIZED VIEW CONCURRENTLY student_risk_summary;
-        END;
-        $$ LANGUAGE plpgsql;
-      `);
-      await db.query('SELECT refresh_student_risk_summary()');
+      await PredictionLogModel.refreshRiskCache();
     } catch (refreshErr) {
       console.warn('Materialized view refresh skipped:', refreshErr.message);
     }
-
+    
     res.status(201).json({ success: true, count: createdStudents.length, data: createdStudents });
   } catch (err) {
     next(err);
@@ -228,6 +222,9 @@ exports.updateStudent = async (req, res, next) => {
     );
 
     res.json({ success: true, data: updated });
+
+    // Refresh cache in background
+    PredictionLogModel.refreshRiskCache().catch(err => console.warn('Cache refresh failed:', err.message));
   } catch (err) {
     if (err.code === '23505') {
       return next(new AppError('A student with this email already exists', 409));

@@ -4,10 +4,11 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { getStudents, deleteStudent, type Student, type RiskLevel } from '@/lib/api';
 
-const riskConfig: Record<RiskLevel, { label: string; dot: string; bg: string; text: string }> = {
-  low:    { label: 'Low Risk',    dot: 'bg-emerald-500', bg: 'bg-emerald-50',  text: 'text-emerald-600' },
-  medium: { label: 'Medium Risk', dot: 'bg-amber-400',   bg: 'bg-amber-50',    text: 'text-amber-600' },
-  high:   { label: 'High Risk',   dot: 'bg-red-500',     bg: 'bg-red-50',      text: 'text-red-600' },
+const riskConfig: Record<string, { label: string; dot: string; bg: string; text: string }> = {
+  low:      { label: 'Low Risk',    dot: 'bg-emerald-500', bg: 'bg-emerald-50',  text: 'text-emerald-600' },
+  medium:   { label: 'Medium Risk', dot: 'bg-amber-400',   bg: 'bg-amber-50',    text: 'text-amber-600' },
+  high:     { label: 'High Risk',   dot: 'bg-red-500',     bg: 'bg-red-50',      text: 'text-red-600' },
+  unscored: { label: 'Unscored',    dot: 'bg-slate-400',    bg: 'bg-slate-50',    text: 'text-slate-500' },
 };
 
 export default function StudentsPage() {
